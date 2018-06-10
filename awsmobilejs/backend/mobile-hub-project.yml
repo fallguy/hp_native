@@ -1,0 +1,83 @@
+--- !com.amazonaws.mobilehub.v0.Project 
+apps:
+  web: !com.amazonaws.mobilehub.v0.AppDO {}
+features:
+  cloudlogic: !com.amazonaws.mobilehub.v0.CloudLogic 
+    components:
+      surveysCRUD: !com.amazonaws.mobilehub.v0.API 
+        attributes:
+          name: surveysCRUD
+          requires-signin: false
+          sdk-generation-stage-name: Development
+        paths:
+          /surveys: !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/surveys-20180528183554.zip
+            description: 'Handler for calls to resource path : /surveys/{proxy+}'
+            enableCORS: true
+            environment: {}
+            handler: lambda.handler
+            hashcode: 4tQzzKXrFQfc8fjENPOVJBXqLwnkJBXCVgSebPs+rjk=
+            memorySize: '128'
+            modified: '2018-05-29T01:36:36.235+0000'
+            name: surveys
+            runtime: nodejs6.10
+            timeout: '3'
+            version: elWpGj5CSkJBRWmA6WBuDJce19Ojt3G6
+          '/surveys/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/surveys-20180528183554.zip
+            description: 'Handler for calls to resource path : /surveys/{proxy+}'
+            enableCORS: true
+            environment: {}
+            handler: lambda.handler
+            hashcode: 4tQzzKXrFQfc8fjENPOVJBXqLwnkJBXCVgSebPs+rjk=
+            memorySize: '128'
+            modified: '2018-05-29T01:36:36.235+0000'
+            name: surveys
+            runtime: nodejs6.10
+            timeout: '3'
+            version: fa5gRrdA0BewR0b.yUWt31X7nXYMzJOT
+  content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
+    attributes:
+      enabled: true
+      visibility: public-global
+    components:
+      release: !com.amazonaws.mobilehub.v0.Bucket {}
+  database: !com.amazonaws.mobilehub.v0.Database 
+    components:
+      database-nosql: !com.amazonaws.mobilehub.v0.NoSQLDatabase 
+        tables:
+          - !com.amazonaws.mobilehub.v0.NoSQLTable 
+            attributes:
+              category: S
+              id: S
+              question: S
+              widget: S
+            hashKeyName: id
+            hashKeyType: S
+            rangeKeyName: ''
+            rangeKeyType: ''
+            tableName: ___DYNAMIC_PREFIX___-surveys
+            tablePrivacy: public
+  mobile-analytics: !com.amazonaws.mobilehub.v0.Pinpoint 
+    components:
+      analytics: !com.amazonaws.mobilehub.v0.PinpointAnalytics {}
+  sign-in: !com.amazonaws.mobilehub.v0.SignIn 
+    attributes:
+      enabled: true
+      optional-sign-in: true
+    components:
+      sign-in-user-pools: !com.amazonaws.mobilehub.v0.UserPoolsIdentityProvider 
+        attributes:
+          alias-attributes:
+            - email
+            - phone_number
+          mfa-configuration: ON
+          name: userpool
+          password-policy: !com.amazonaws.mobilehub.ConvertibleMap 
+            min-length: '8'
+            require-lower-case: false
+            require-numbers: false
+            require-symbols: false
+            require-upper-case: false
+name: happy-place-survey
+region: us-east-2
