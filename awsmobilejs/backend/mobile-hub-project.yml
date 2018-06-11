@@ -1,6 +1,4 @@
 --- !com.amazonaws.mobilehub.v0.Project 
-apps:
-  web: !com.amazonaws.mobilehub.v0.AppDO {}
 features:
   cloudlogic: !com.amazonaws.mobilehub.v0.CloudLogic 
     components:
@@ -11,31 +9,31 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /surveys: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/surveys-20180528183554.zip
+            codeFilename: uploads/surveys-20180610125620.zip
             description: 'Handler for calls to resource path : /surveys/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: 4tQzzKXrFQfc8fjENPOVJBXqLwnkJBXCVgSebPs+rjk=
+            hashcode: qgS23M7idlXI8tcbotzK8cNSPQWdzGBFa7gMa5z0enk=
             memorySize: '128'
-            modified: '2018-05-29T01:36:36.235+0000'
+            modified: '2018-06-10T19:57:02.495+0000'
             name: surveys
             runtime: nodejs6.10
             timeout: '3'
-            version: elWpGj5CSkJBRWmA6WBuDJce19Ojt3G6
+            version: 3LLEnhPO2Uli42VMQkV4RHbSEo8Uhm1Q
           '/surveys/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/surveys-20180528183554.zip
+            codeFilename: uploads/surveys-20180610125620.zip
             description: 'Handler for calls to resource path : /surveys/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: 4tQzzKXrFQfc8fjENPOVJBXqLwnkJBXCVgSebPs+rjk=
+            hashcode: qgS23M7idlXI8tcbotzK8cNSPQWdzGBFa7gMa5z0enk=
             memorySize: '128'
-            modified: '2018-05-29T01:36:36.235+0000'
+            modified: '2018-06-10T19:57:02.495+0000'
             name: surveys
             runtime: nodejs6.10
             timeout: '3'
-            version: fa5gRrdA0BewR0b.yUWt31X7nXYMzJOT
+            version: 1aYRVR4FDKpX7x6716Zh9WkVDSSTSXfo
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
     attributes:
       enabled: true
@@ -79,5 +77,5 @@ features:
             require-numbers: false
             require-symbols: false
             require-upper-case: false
-name: happy-place-survey
-region: us-east-2
+name: hp_native-2018-06-10-12-47-27
+region: us-west-1
