@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Slider } from "react-native";
+import { StyleSheet, Text, View, Slider, Button, Alert } from "react-native";
 
 export default class ClassSlider extends Component {
   constructor(props) {
@@ -9,6 +9,25 @@ export default class ClassSlider extends Component {
   getVal(val) {
     console.warn(val);
   }
+
+  onPressLearnMore () {
+    Alert.alert(
+        'Are you sure you want to submit?',
+        '',
+            [
+            {text: 'Cancel', onPress: () => console.warn('Cancel Pressed!')},
+            {text: 'OK', onPress: () => okPress() }
+          ]
+    )
+    
+    function okPress(){
+      console.warn('ok');
+      // want this reflect same value as getVal function but it errors
+      console.warn('this.getval(val)');
+    }
+  }
+  
+
   render() {
     return (
       <View style={styles.container}>
@@ -31,6 +50,12 @@ export default class ClassSlider extends Component {
             />
             <Text style={styles.metric}>{this.state.metric}</Text>
           </View>
+          <Button
+            onPress={this.onPressLearnMore}
+            title="Submit"
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          />
         </View>
       </View>
     );
@@ -42,7 +67,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
-    backgroundColor: "powderblue",
+    backgroundColor: "#F5FCFF",
   },
   question: {
     fontSize: 30,
@@ -50,20 +75,15 @@ const styles = StyleSheet.create({
     color: "#333333",
     margin: 5
   },
-  descriptor: {
-    // flex: 1,
-    justifyContent: "space-between",
-    // alignItems: 'center',
-    flexDirection: "row",
-
-    width: '90%'
-  },
   sliderContainer: {
-    
-    // justifyContent: 'center',
     alignItems: "center",
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#20b2aa'
 
+  },
+  descriptor: {
+    justifyContent: "space-between",
+    flexDirection: "row",
+    width: '90%'
   },
   metric: {
     fontSize: 20,
