@@ -10,7 +10,7 @@ export default class ClassSlider extends Component {
     console.warn(val);
   }
 
-  onPressLearnMore () {
+  onPressLearnMore (valueSubmit) {
     Alert.alert(
         'Are you sure you want to submit?',
         '',
@@ -23,7 +23,7 @@ export default class ClassSlider extends Component {
     function okPress(){
       console.warn('ok');
       // want this reflect same value as getVal function but it errors
-      console.warn('this.getval(val)');
+      console.warn(valueSubmit);
     }
   }
   
@@ -51,7 +51,7 @@ export default class ClassSlider extends Component {
             <Text style={styles.metric}>{this.state.metric}</Text>
           </View>
           <Button
-            onPress={this.onPressLearnMore}
+            onPress={valueSubmit => this.onPressLearnMore(this.state.metric)}
             title="Submit"
             color="#841584"
             accessibilityLabel="Learn more about this purple button"
