@@ -4,7 +4,7 @@ npm install
 awsmobile init
 awsmobile push
 ```
-(if was-export.js is in root directory)
+(if aws-export.js is in root directory)
 ```
 mv aws-export.js src/
 ```
