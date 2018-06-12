@@ -1,3 +1,20 @@
+Run the following commands to configure the backend:
+```
+npm install
+awsmobile init
+awsmobile push
+```
+(if was-export.js is in root directory)
+```
+mv aws-export.js src/
+```
+Finally run below command to start app
+```
+yarn start
+```
+
+!!!End of hp_native specific instructions!!!
+
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
