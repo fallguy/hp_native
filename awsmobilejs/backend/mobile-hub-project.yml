@@ -2,6 +2,38 @@
 features:
   cloudlogic: !com.amazonaws.mobilehub.v0.CloudLogic 
     components:
+      notifyCRUD: !com.amazonaws.mobilehub.v0.API 
+        attributes:
+          name: notifyCRUD
+          requires-signin: false
+          sdk-generation-stage-name: Development
+        paths:
+          /notify: !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/notify-20180610154008.zip
+            description: 'Handler for calls to resource path : /notify/{proxy+}'
+            enableCORS: true
+            environment: {}
+            handler: lambda.handler
+            hashcode: nBIJ/mJhUWNtT3d0C53DVwW6cv+HzUSCHknxQ9QOd10=
+            memorySize: '128'
+            modified: '2018-06-10T22:41:10.416+0000'
+            name: notify
+            runtime: nodejs6.10
+            timeout: '3'
+            version: 3T805eG.VNr1BdHzFwlWQ_ObVhXVbyyU
+          '/notify/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/notify-20180610154008.zip
+            description: 'Handler for calls to resource path : /notify/{proxy+}'
+            enableCORS: true
+            environment: {}
+            handler: lambda.handler
+            hashcode: nBIJ/mJhUWNtT3d0C53DVwW6cv+HzUSCHknxQ9QOd10=
+            memorySize: '128'
+            modified: '2018-06-10T22:41:10.416+0000'
+            name: notify
+            runtime: nodejs6.10
+            timeout: '3'
+            version: K4QHLca072rNhi4QCvriDKbes1fqW7dG
       surveysCRUD: !com.amazonaws.mobilehub.v0.API 
         attributes:
           name: surveysCRUD
@@ -44,6 +76,18 @@ features:
     components:
       database-nosql: !com.amazonaws.mobilehub.v0.NoSQLDatabase 
         tables:
+          - !com.amazonaws.mobilehub.v0.NoSQLTable 
+            attributes:
+              id: S
+              surveyId: S
+              time: N
+              userId: S
+            hashKeyName: id
+            hashKeyType: S
+            rangeKeyName: time
+            rangeKeyType: N
+            tableName: ___DYNAMIC_PREFIX___-notify
+            tablePrivacy: public
           - !com.amazonaws.mobilehub.v0.NoSQLTable 
             attributes:
               category: S
