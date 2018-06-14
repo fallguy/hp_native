@@ -6,6 +6,7 @@ import { Icon } from 'react-native-elements';
 import Profile from './screens/Profile';
 import Survey from './screens/Survey';
 import SliderInput from './screens/SliderInput';
+import QuotePage from './screens/QuotePage';
 
 
 let screen = Dimensions.get('window');
@@ -22,6 +23,13 @@ export const Tabs = createBottomTabNavigator({
     screen: Survey,
     navigationOptions: {
       tabBarLabel: 'Explore',
+      tabBarIcon: ({ tintColor }) => <Icon name="ios-map-outline" type="ionicon" size={28} color={tintColor} />
+    },
+  },
+  'QuotePage': {
+    screen: QuotePage,
+    navigationOptions: {
+      tabBarLabel: 'QuotePage',
       tabBarIcon: ({ tintColor }) => <Icon name="ios-map-outline" type="ionicon" size={28} color={tintColor} />
     },
   },
