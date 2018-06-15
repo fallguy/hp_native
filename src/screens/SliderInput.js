@@ -1,16 +1,23 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Slider, Button, Alert } from "react-native";
+import { API, Auth } from 'aws-amplify';
+import Survey from './Survey';
 
 export default class ClassSlider extends Component {
   constructor(props) {
     super(props);
-    this.state = { metric: 5 };
+    this.state = { metric: 5, survey: [] };
+  }
+  async componentDidMount() {
+    let surveyList = await API.get('surveysCRUD', `/surveys`);
+    this.setState({ survey: surveyList });
   }
   getVal(val) {
     console.warn(val);
   }
 
   onPressLearnMore (valueSubmit) {
+    let surveys = this.state.survey;
     Alert.alert(
         'Are you sure you want to submit?',
         '',
@@ -22,6 +29,7 @@ export default class ClassSlider extends Component {
     
     function okPress(){
       console.warn('ok');
+      console.warn(surveys)
       // want this reflect same value as getVal function but it errors
       console.warn(valueSubmit);
     }
@@ -51,7 +59,7 @@ export default class ClassSlider extends Component {
             <Text style={styles.metric}>{this.state.metric}</Text>
           </View>
           <Button
-            onPress={valueSubmit => this.onPressLearnMore(this.state.metric)}
+            onPress={() => this.onPressLearnMore(this.state.metric)}
             title="Submit"
             color="#841584"
             accessibilityLabel="Learn more about this purple button"
