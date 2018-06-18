@@ -167,11 +167,11 @@ app.put(path, function(req, res) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
 
-  if (!userId.includes(req.body.userId)) {
+  if (!req.body.userId) {
     res.json({error: 'invalid userId', url: req.url, body: req.body});
   }
 
-  if (!surveyId.includes(req.body.surveyId)) {
+  if (!req.body.surveyId) {
     res.json({error: 'invalid surveyId', url: req.url, body: req.body});
   }
 

@@ -1,20 +1,40 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Slider, Button, Alert } from "react-native";
 import { API, Auth } from 'aws-amplify';
+import uuid from 'uuid';
 import Survey from './Survey';
 
 export default class ClassSlider extends Component {
   constructor(props) {
     super(props);
-    this.state = { metric: 5, survey: [] };
+    this.state = { metric: 5, survey: [], wellness: [] };
   }
   async componentDidMount() {
     let surveyList = await API.get('surveysCRUD', `/surveys`);
     this.setState({ survey: surveyList });
   }
+  handleAddWellness(){
+
+    
+    Alert.alert(
+      'Are you sure you want to submit?',
+      '',
+          [
+          {text: 'Cancel', onPress: () => console.warn('Cancel Pressed!')},
+          {text: 'OK', onPress: () => okPress() }
+        ]
+  )
+  
+    function okPress(){
+      //hardcode for wellness POST. modify this as you please.
+      console.warn('please check wellness db table and see if it works');
+      console.warn(API.post('wellnessCRUD', '/wellness', { body: {id: uuid.v4(), test: "wow"} }));
+    }
+  }
   getVal(val) {
     console.warn(val);
   }
+  
 
   onPressLearnMore (valueSubmit) {
     let surveys = this.state.survey;
@@ -61,6 +81,12 @@ export default class ClassSlider extends Component {
           <Button
             onPress={() => this.onPressLearnMore(this.state.metric)}
             title="Submit"
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          />
+           <Button
+            onPress={() => this.handleAddWellness()}
+            title="Add Wellness Object"
             color="#841584"
             accessibilityLabel="Learn more about this purple button"
           />
