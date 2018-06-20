@@ -6,18 +6,34 @@ import SliderWidget from '../SliderWidget';
 export default class ClassSlider extends Component {
   constructor(props) {
     super(props);
-    this.state = {notification: {} };
+    this.state = {
+      notification: [],
+      user_sub: ""
+    };
+    
   }
   async componentDidMount() {
-    let notification = await API.get('notifyCRUD', `/notify`);
-    console.warn(notification);
-    // this.setState({ notification });
+    let notification = await API.get('notifyCRUD', `/notify/`);
+    let user_sub = "";
+      Auth.currentSession().then((e) => {
+        // return e.idToken.payload
+        // console.log(e.idToken.payload.sub) //Display user ID
+        user_sub = e.idToken.payload.sub  //Display user ID
+        this.setState({ user_sub });
+      });
+    // let notification = await API.get('notifyCRUD', `/notify/user_id/{id}`);
+    //console.warn(notification);
+    this.setState({ notification, user_sub });
+    // console.warn(session);
+
   }
 
   render() {
     return (
       <View style={styles.container}>
+       {this.state.user_sub}
        <SliderWidget notification={this.state.notification}/>
+       
       </View>
     );
   }
