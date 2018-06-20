@@ -33,7 +33,10 @@ export default class ClassSlider extends Component {
     return (
       <View style={styles.container}>
        {this.state.user_sub}
-       <SliderWidget notification={this.state.notification}/>
+       {this.state.notification.length > 0 &&
+        <SliderWidget notification={this.state.notification}/>
+      }
+       
        
       </View>
     );

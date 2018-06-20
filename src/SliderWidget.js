@@ -91,9 +91,9 @@ export default class SliderWidget extends Component {
     
     return (
         <View>
-          {max_notify}
-          {notify}
-
+          {/* {max_notify}
+          {notify} */}
+          <Text>{max_obj.survey.question}</Text>
           <View style={styles.sliderContainer}>
           <View style={styles.descriptor}>
             <Text>Not at all</Text>
