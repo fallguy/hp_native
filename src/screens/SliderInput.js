@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Slider, Button, Alert } from "react-native";
 import { API, Auth } from 'aws-amplify';
 import SliderWidget from '../SliderWidget';
 
+
 export default class ClassSlider extends Component {
   constructor(props) {
     super(props);
