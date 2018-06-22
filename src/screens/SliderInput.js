@@ -7,24 +7,21 @@ export default class ClassSlider extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notification: [],
-      user_sub: ""
+      notification_array: [],
+      metric: 0,
+      user_sub: "",
     };
-    
   }
   async componentDidMount() {
-    let notification = await API.get('notifyCRUD', `/notify/`);
-    let user_sub = "";
-      Auth.currentSession().then((e) => {
-        // return e.idToken.payload
-        // console.log(e.idToken.payload.sub) //Display user ID
-        user_sub = e.idToken.payload.sub  //Display user ID
-        this.setState({ user_sub });
-      });
-    // let notification = await API.get('notifyCRUD', `/notify/user_id/{id}`);
-    //console.warn(notification);
-    this.setState({ notification, user_sub });
-    // console.warn(session);
+    let notification_arrayfromserv = await API.get('notifyCRUD', `/notify/`);
+    this.setState({ notification_array: notification_arrayfromserv });
+  }
+
+  async handleAddSubmission(newSubmission) {
+    let notification = this.state.notification_array;
+    await API.post('wellnessCRUD', '/wellness', { body: newSubmission });
+    // notification.push(newNotification);
+    // this.setState({ notification }); 
 
   }
 
@@ -32,7 +29,10 @@ export default class ClassSlider extends Component {
     return (
       <View style={styles.container}>
        {this.state.user_sub}
-       <SliderWidget notification={this.state.notification}/>
+       {this.state.notification_array.length > 0 &&
+         <SliderWidget notification={this.state.notification} notification_array={this.state.notification_array} submitSlider={this.handleAddSubmission.bind(this)}/>
+        }
+      
        
       </View>
     );

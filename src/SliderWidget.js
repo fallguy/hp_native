@@ -1,99 +1,84 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Slider, Button, Alert } from "react-native";
 import { API, Auth } from 'aws-amplify';
+import uuid from 'uuid';
 
 export default class SliderWidget extends Component {
   constructor(props) {
     super(props);
-    this.state = { metric: 5, notification: {} };
-    if (props.notification) { 
-    	this.state.notification = this.props.notification[0];
+    this.state = { 
+    	metric: 5,
+      notification_array: [],
+    	notification: { 
+    		id: 0,
+    		user_id: "",
+    		scheduled_at: 0,
+    		survey: { 
+    			id: 0,
+    			widget: "",
+  				category: "",
+    			question: "",
+    		}
     	}
-  }
-  async componentDidMount() {
-  }
+    };
+    if (props.notification_array && props.notification_array instanceof Array) {
+      this.state.notification = props.notification_array.reduce(function(max, curr){ 
+        return ( curr != undefined && curr.scheduled_at != null & max.scheduled_at != null && curr.scheduled_at > max.scheduled_at ) 
+          ? cur : max;
+        });
+    }
+	}
+
   getVal(val) {
-    console.warn(val);
   }
 
-  submitSlider (valueSubmit) {
-    let surveys = this.state.survey;
+  okPress (valueSubmit) {
+    let notification = this.state.notification;
+    const id = uuid.v4();
+    const sliderVal = this.state.metric;
+    const notify_id = notification.id;
+    const user_id = notification.user_id;
+    const scheduled_at = notification.scheduled_at;
+    const survey_id = notification.survey.id;
+    const widget = notification.survey.widget;
+    const category = notification.survey.category;
+    const question = notification.survey.question;
+    console.warn(sliderVal);
+    const newSubmission = { 
+      "id": id.toString(),
+      "sliderVal": sliderVal,
+      "notification": {"notify_id": notify_id,
+      "user_id": user_id,
+      "scheduled_at": scheduled_at,
+      "survey": { 
+         "id": survey_id ,
+         "widget": widget,
+         "category": category,
+         "question": question
+        },
+      }
+    };
+    this.props.submitSlider(newSubmission);
+  }
+
+  submitSlider = () =>  {
+    let notification = this.state.notification;
     Alert.alert(
         'Are you sure you want to submit?',
         '',
             [
             {text: 'Cancel', onPress: () => console.warn('Cancel Pressed!')},
-            {text: 'OK', onPress: () => okPress() }
-          ]
+            {text: 'OK', onPress: () => this.okPress() }
+            ]
     )
-    
-    function okPress(){
-      console.warn('ok');
-      console.warn(surveys, valueSubmit)
-    }
   }
   
 
   render() {
-  
-    var notification_array = this.props.notification.map(notification => {
-      if(notification.scheduled_at != null) {
-        return ({ 
-            id: notification.id,
-            scheduled_at: notification.scheduled_at,
-            survey: notification.survey,
-            user_id: notification.user_id,
-             })
-      }
 
-    });
-    
-    notification_array = notification_array.filter(function(n){ return n != undefined }); 
-
-    // console.warn(notification_array);
-
-    // console.warn(notification_array);
-
-
-    var max_val = Math.max.apply(Math,notification_array.map(function(o){return o.scheduled_at;}));
-      // console.warn(max_val);
-
-    var max_obj = notification_array.find(function(o){ return o.scheduled_at == max_val; });
-
-    // console.warn(max_obj);
-
-    // let max_question = this.props.max_obj.map(max_obj => {
-    //   if (max_obj.survey){
-    //      return <Text style={styles.question} key={max_obj.id}>{max_obj.survey.question}</Text>
-    //   }
-    
-    // });
-
-    let max_notify = this.props.notification.map(notification => {
-      return <Text style={styles.question} key={notification.id}>{notification.scheduled_at}</Text>
-     
-    });
-
-  	
-  	let notify = this.props.notification.map(notification => {
-  		if (notification.survey){
-  			 return <Text style={styles.question} key={notification.id}>{notification.survey.question}</Text>
-  		}
-     
-    });
-
-
-
-    // console.warn(max_notify);
-
-    // let time_array = this.props.notification.map(x => x)
-    // console.warn(this.props.notification)
-    
     return (
         <View>
-          {max_notify}
-          {notify}
-
+          <Text style={styles.question}>{this.state.notification.survey.question}</Text>
           <View style={styles.sliderContainer}>
           <View style={styles.descriptor}>
             <Text>Not at all</Text>
@@ -111,10 +96,9 @@ export default class SliderWidget extends Component {
             <Text style={styles.metric}>{this.state.metric}</Text>
           </View>
           <Button
-            onPress={() => this.submitSlider(this.state.metric)}
+            onPress={() => this.submitSlider(this.state.newSubmission)}
             title="Submit"
             color="#841584"
-            accessibilityLabel="Learn more about this purple button"
           />
         </View>
     );
@@ -124,7 +108,7 @@ export default class SliderWidget extends Component {
 const styles = StyleSheet.create({
   sliderContainer: {
     alignItems: "center",
-    backgroundColor: '#20b2aa'
+    backgroundColor: '#F5FCFF'
   },
   question: {
     fontSize: 30,
