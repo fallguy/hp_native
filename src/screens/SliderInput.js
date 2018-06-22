@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, Slider, Button, Alert } from "react-native";
 import { API, Auth } from 'aws-amplify';
 import SliderWidget from '../SliderWidget';
+import { createStackNavigator } from 'react-navigation';
 
 
 export default class ClassSlider extends Component {
@@ -31,7 +32,7 @@ export default class ClassSlider extends Component {
       <View style={styles.container}>
        {this.state.user_sub}
        {this.state.notification_array.length > 0 &&
-         <SliderWidget notification={this.state.notification} notification_array={this.state.notification_array} submitSlider={this.handleAddSubmission.bind(this)}/>
+         <SliderWidget notification_array={this.state.notification_array} submitSlider={this.handleAddSubmission.bind(this)}/>
         }
       
        

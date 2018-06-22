@@ -3,12 +3,19 @@ import { StyleSheet, Text, View, Slider, Button, Alert } from "react-native";
 import { API, Auth } from 'aws-amplify';
 import uuid from 'uuid';
 
+
+
+var currentUnixTime = Math.round((new Date()).getTime() / 1000);
+
+
 export default class SliderWidget extends Component {
   constructor(props) {
     super(props);
     this.state = { 
     	metric: 5,
       notification_array: [],
+      currentUnixTime: 0,
+      app_version: "1.0.0",
     	notification: { 
     		id: 0,
     		user_id: "",
@@ -35,7 +42,9 @@ export default class SliderWidget extends Component {
   okPress (valueSubmit) {
     let notification = this.state.notification;
     const id = uuid.v4();
+    const answered_at = currentUnixTime;
     const sliderVal = this.state.metric;
+    const app_version = this.state.app_version;
     const notify_id = notification.id;
     const user_id = notification.user_id;
     const scheduled_at = notification.scheduled_at;
@@ -46,7 +55,9 @@ export default class SliderWidget extends Component {
     console.warn(sliderVal);
     const newSubmission = { 
       "id": id.toString(),
+      "answered_at": answered_at,
       "sliderVal": sliderVal,
+      "app_version": app_version,
       "notification": {"notify_id": notify_id,
       "user_id": user_id,
       "scheduled_at": scheduled_at,
@@ -58,6 +69,7 @@ export default class SliderWidget extends Component {
         },
       }
     };
+    console.warn(newSubmission);
     this.props.submitSlider(newSubmission);
   }
 
@@ -69,6 +81,17 @@ export default class SliderWidget extends Component {
             [
             {text: 'Cancel', onPress: () => console.warn('Cancel Pressed!')},
             {text: 'OK', onPress: () => this.okPress() }
+            ]
+    )
+  }
+
+  leaveSurvey = () =>  {
+    Alert.alert(
+        'Are you sure you want to skip the question?',
+        '',
+            [
+            {text: 'Cancel', onPress: () => console.warn('Cancel Pressed!')},
+            {text: 'Yes, Leave me Alone', onPress: () => this.props.navigation.navigate('Profile') }
             ]
     )
   }
@@ -98,6 +121,11 @@ export default class SliderWidget extends Component {
           <Button
             onPress={() => this.submitSlider(this.state.newSubmission)}
             title="Submit"
+            color="#841584"
+          />
+          <Button
+            onPress={() => this.leaveSurvey()}
+            title="Skip Question"
             color="#841584"
           />
         </View>
