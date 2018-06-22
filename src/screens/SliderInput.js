@@ -1,96 +1,41 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Slider, Button, Alert } from "react-native";
 import { API, Auth } from 'aws-amplify';
-import uuid from 'uuid';
-import Survey from './Survey';
+import SliderWidget from '../SliderWidget';
+import { createStackNavigator } from 'react-navigation';
+
 
 export default class ClassSlider extends Component {
   constructor(props) {
     super(props);
-    this.state = { metric: 5, survey: [], wellness: [] };
+    this.state = {
+      notification_array: [],
+      metric: 0,
+      user_sub: "",
+    };
   }
   async componentDidMount() {
-    let surveyList = await API.get('surveysCRUD', `/surveys`);
-    this.setState({ survey: surveyList });
+    let notification_arrayfromserv = await API.get('notifyCRUD', `/notify/`);
+    this.setState({ notification_array: notification_arrayfromserv });
   }
-  handleAddWellness(){
 
-    
-    Alert.alert(
-      'Are you sure you want to submit?',
-      '',
-          [
-          {text: 'Cancel', onPress: () => console.warn('Cancel Pressed!')},
-          {text: 'OK', onPress: () => okPress() }
-        ]
-  )
-  
-    function okPress(){
-      //hardcode for wellness POST. modify this as you please.
-      console.warn('please check wellness db table and see if it works');
-      console.warn(API.post('wellnessCRUD', '/wellness', { body: {id: uuid.v4(), test: "wow"} }));
-    }
-  }
-  getVal(val) {
-    console.warn(val);
-  }
-  
+  async handleAddSubmission(newSubmission) {
+    let notification = this.state.notification_array;
+    await API.post('wellnessCRUD', '/wellness', { body: newSubmission });
+    // notification.push(newNotification);
+    // this.setState({ notification }); 
 
-  onPressLearnMore (valueSubmit) {
-    let surveys = this.state.survey;
-    Alert.alert(
-        'Are you sure you want to submit?',
-        '',
-            [
-            {text: 'Cancel', onPress: () => console.warn('Cancel Pressed!')},
-            {text: 'OK', onPress: () => okPress() }
-          ]
-    )
-    
-    function okPress(){
-      console.warn('ok');
-      console.warn(surveys)
-      // want this reflect same value as getVal function but it errors
-      console.warn(valueSubmit);
-    }
   }
-  
 
   render() {
     return (
       <View style={styles.container}>
-        <View>
-          <Text style={styles.question}>Are you happy?</Text>
-          
-          <View style={styles.sliderContainer}>
-          <View style={styles.descriptor}>
-            <Text>Not at all</Text>
-            <Text>Extremely</Text>
-          </View>
-            <Slider
-              style={{ width: '90%' }}
-              step={1}
-              minimumValue={0}
-              maximumValue={10}
-              value={this.state.metric}
-              onValueChange={val => this.setState({ metric: val })}
-              onSlidingComplete={val => this.getVal(val)}
-            />
-            <Text style={styles.metric}>{this.state.metric}</Text>
-          </View>
-          <Button
-            onPress={() => this.onPressLearnMore(this.state.metric)}
-            title="Submit"
-            color="#841584"
-            accessibilityLabel="Learn more about this purple button"
-          />
-           <Button
-            onPress={() => this.handleAddWellness()}
-            title="Add Wellness Object"
-            color="#841584"
-            accessibilityLabel="Learn more about this purple button"
-          />
-        </View>
+       {this.state.user_sub}
+       {this.state.notification_array.length > 0 &&
+         <SliderWidget notification_array={this.state.notification_array} submitSlider={this.handleAddSubmission.bind(this)}/>
+        }
+      
+       
       </View>
     );
   }
@@ -102,27 +47,5 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     backgroundColor: "#F5FCFF",
-  },
-  question: {
-    fontSize: 30,
-    textAlign: "center",
-    color: "#333333",
-    margin: 5
-  },
-  sliderContainer: {
-    alignItems: "center",
-    backgroundColor: '#20b2aa'
-
-  },
-  descriptor: {
-    justifyContent: "space-between",
-    flexDirection: "row",
-    width: '90%'
-  },
-  metric: {
-    fontSize: 20,
-    textAlign: "center",
-    // alignItems: 'center',
-    margin: 10
   }
 });
