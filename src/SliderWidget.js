@@ -48,6 +48,7 @@ export default class SliderWidget extends Component {
     const notify_id = notification.id;
     const user_id = notification.user_id;
     const scheduled_at = notification.scheduled_at;
+    const sent_at = null;
     const survey_id = notification.survey.id;
     const widget = notification.survey.widget;
     const category = notification.survey.category;
@@ -56,22 +57,28 @@ export default class SliderWidget extends Component {
     const newSubmission = { 
       "id": id.toString(),
       "answered_at": answered_at,
-      "sliderVal": sliderVal,
+      "wellness_value": sliderVal,
       "app_version": app_version,
-      "notification": {"notify_id": notify_id,
-      "user_id": user_id,
-      "scheduled_at": scheduled_at,
+      "notification": {
+        "notify_id": notify_id,
+        "user_id": user_id,
+        "scheduled_at": scheduled_at,
+        "sent_at": sent_at,
+      },
       "survey": { 
-         "id": survey_id ,
-         "widget": widget,
-         "category": category,
-         "question": question
+        "id": survey_id ,
+        "widget": widget,
+        "category": category,
+        "question": question
         },
-      }
     };
     console.warn(newSubmission);
     this.props.submitSlider(newSubmission);
   }
+
+  // goHome () {
+  //   this.props.navigation.navigate('Profile');
+  // }
 
   submitSlider = () =>  {
     let notification = this.state.notification;

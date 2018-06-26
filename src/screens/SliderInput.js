@@ -32,7 +32,7 @@ export default class ClassSlider extends Component {
       <View style={styles.container}>
        {this.state.user_sub}
        {this.state.notification_array.length > 0 &&
-         <SliderWidget notification_array={this.state.notification_array} submitSlider={this.handleAddSubmission.bind(this)}/>
+         <SliderWidget navigation={this.props.navigation} notification_array={this.state.notification_array} submitSlider={this.handleAddSubmission.bind(this)}/>
         }
       
        
