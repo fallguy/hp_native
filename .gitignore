@@ -5,6 +5,8 @@
 
 # dependencies
 /node_modules
+node_modules/**
+node_modules/
 
 # misc
 .env.local
@@ -24,7 +26,3 @@ aws-exports.*
 awsmobilejs/.awsmobile/backend-build
 awsmobilejs/\#current-backend-info
 ~awsmobilejs-*/
-awsmobilejs/backend/cloud-api/notify/node_modules
-awsmobilejs/backend/cloud-api/surveys/node_modules
-awsmobilejs/backend/cloud-api/users/node_modules
-awsmobilejs/backend/cloud-api/wellness/node_modules
