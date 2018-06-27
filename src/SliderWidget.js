@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, Slider, Button, Alert } from "react-native";
 import { API, Auth } from 'aws-amplify';
 import uuid from 'uuid';
+import { Constants, MapView, Location, Permissions } from 'expo';
+
 
 
 
@@ -11,74 +13,82 @@ var currentUnixTime = Math.round((new Date()).getTime() / 1000);
 export default class SliderWidget extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
+      mapRegion: null,
+      hasLocationPermissions: false,
+      locationResult: null,
     	metric: 5,
       notification_array: [],
       currentUnixTime: 0,
       app_version: "1.0.0",
-    	notification: { 
-    		id: 0,
-    		user_id: "",
-    		scheduled_at: 0,
-    		survey: { 
-    			id: 0,
-    			widget: "",
-  				category: "",
-    			question: "",
-    		}
-    	}
+      location: {},
+      user_id: "",
+    	notification: {},
+      notification_object: {},
+      survey_object: {},
     };
     if (props.notification_array && props.notification_array instanceof Array) {
       this.state.notification = props.notification_array.reduce(function(max, curr){ 
         return ( curr != undefined && curr.scheduled_at != null & max.scheduled_at != null && curr.scheduled_at > max.scheduled_at ) 
           ? cur : max;
         });
+      
+      
+      
     }
 	}
+
+  componentDidMount() {
+    this._getLocationAsync();
+    let notificationObject = this.state.notification;
+    this.setState({ notificationObject: notificationObject });
+  }
 
   getVal(val) {
   }
 
+  _getLocationAsync = async () => {
+   let { status } = await Permissions.askAsync(Permissions.LOCATION);
+   if (status !== 'granted') {
+     this.setState({
+       locationResult: 'Permission to access location was denied',
+     });
+   } else {
+     this.setState({ hasLocationPermissions: true });
+   }
+
+   let location = await Location.getCurrentPositionAsync({});
+   this.setState({ locationResult: JSON.stringify(location) });
+   this.setState({ locationObject: location });
+  };
+
   okPress (valueSubmit) {
+
     let notification = this.state.notification;
+
+    const notification_object = this.state.notificationObject;
+    const survey_object = this.state.notification.survey;
+    const location_object = this.state.locationObject;
+
     const id = uuid.v4();
     const answered_at = currentUnixTime;
     const sliderVal = this.state.metric;
     const app_version = this.state.app_version;
-    const notify_id = notification.id;
     const user_id = notification.user_id;
-    const scheduled_at = notification.scheduled_at;
-    const sent_at = null;
-    const survey_id = notification.survey.id;
-    const widget = notification.survey.widget;
-    const category = notification.survey.category;
-    const question = notification.survey.question;
-    console.warn(sliderVal);
     const newSubmission = { 
       "id": id.toString(),
+      "user_id": user_id,
       "answered_at": answered_at,
       "wellness_value": sliderVal,
       "app_version": app_version,
-      "notification": {
-        "notify_id": notify_id,
-        "user_id": user_id,
-        "scheduled_at": scheduled_at,
-        "sent_at": sent_at,
-      },
-      "survey": { 
-        "id": survey_id ,
-        "widget": widget,
-        "category": category,
-        "question": question
-        },
+      "notification": notification_object,
+      "survey": survey_object,
+      "location": location_object,
     };
     console.warn(newSubmission);
     this.props.submitSlider(newSubmission);
   }
 
-  // goHome () {
-  //   this.props.navigation.navigate('Profile');
-  // }
 
   submitSlider = () =>  {
     let notification = this.state.notification;
@@ -105,7 +115,6 @@ export default class SliderWidget extends Component {
   
 
   render() {
-
     return (
         <View>
           <Text style={styles.question}>{this.state.notification.survey.question}</Text>
@@ -135,7 +144,10 @@ export default class SliderWidget extends Component {
             title="Skip Question"
             color="#841584"
           />
+
+
         </View>
+        
     );
   }
 }
