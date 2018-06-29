@@ -4,6 +4,38 @@ apps:
 features:
   cloudlogic: !com.amazonaws.mobilehub.v0.CloudLogic 
     components:
+      notificationEngine: !com.amazonaws.mobilehub.v0.API 
+        attributes:
+          name: notificationEngine
+          requires-signin: false
+          sdk-generation-stage-name: Development
+        paths:
+          /notificationEngine: !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/notificationEngine-20180626172837.zip
+            description: 'Handler for calls to resource path : /notificationEngine/{proxy+}'
+            enableCORS: true
+            environment: {}
+            handler: lambda.handler
+            hashcode: hKChHhLcUdUKSNQq+Pem054CK6LVSicLuGpGleIu4Ko=
+            memorySize: '128'
+            modified: '2018-06-27T00:29:38.625+0000'
+            name: notificationEngine
+            runtime: nodejs6.10
+            timeout: '3'
+            version: 3w37NTUmGMG4RgVZ7T1LUFhcxSEnxWTJ
+          '/notificationEngine/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/notificationEngine-20180626172837.zip
+            description: 'Handler for calls to resource path : /notificationEngine/{proxy+}'
+            enableCORS: true
+            environment: {}
+            handler: lambda.handler
+            hashcode: hKChHhLcUdUKSNQq+Pem054CK6LVSicLuGpGleIu4Ko=
+            memorySize: '128'
+            modified: '2018-06-27T00:29:38.625+0000'
+            name: notificationEngine
+            runtime: nodejs6.10
+            timeout: '3'
+            version: bFraAqlGBz7U126hBRaYEjYurNtrlnq6
       notifyCRUD: !com.amazonaws.mobilehub.v0.API 
         attributes:
           name: notifyCRUD
@@ -11,31 +43,31 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /notify: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/notify-20180617161957.zip
+            codeFilename: uploads/notify-20180626163241.zip
             description: 'Handler for calls to resource path : /notify/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: 1nmygAptUMcHJ0HuO2XeSeYB4nG2Mu13tClQY5kAN8o=
+            hashcode: oLeWzdzt4orik16x826J6Pn2IVJMLIZQO9UgR1FvuEU=
             memorySize: '128'
-            modified: '2018-06-17T23:27:14.146+0000'
+            modified: '2018-06-27T00:29:33.570+0000'
             name: notify
             runtime: nodejs6.10
             timeout: '3'
-            version: hCcnDRwyiW8avG8w6z4J4vEv84jJ4_Iv
+            version: 6wOPMxyQ3KxzCq8bI15KE0QyPnFnxwZw
           '/notify/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/notify-20180617161957.zip
+            codeFilename: uploads/notify-20180626163241.zip
             description: 'Handler for calls to resource path : /notify/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: 1nmygAptUMcHJ0HuO2XeSeYB4nG2Mu13tClQY5kAN8o=
+            hashcode: oLeWzdzt4orik16x826J6Pn2IVJMLIZQO9UgR1FvuEU=
             memorySize: '128'
-            modified: '2018-06-17T23:27:14.146+0000'
+            modified: '2018-06-27T00:29:33.570+0000'
             name: notify
             runtime: nodejs6.10
             timeout: '3'
-            version: 5RoZvKPQ0pHb7bEt_7divqZT8ux5Kc7v
+            version: ua0vO.kgXWmNSKZRo46JZtDVTrCdexhX
       surveysCRUD: !com.amazonaws.mobilehub.v0.API 
         attributes:
           name: surveysCRUD
@@ -43,63 +75,63 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /surveys: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/surveys-20180617161957.zip
+            codeFilename: uploads/surveys-20180626154047.zip
             description: 'Handler for calls to resource path : /surveys/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: pJtqvEioSJJd7tFiuL0SxQeHExOSxbf15ARGjwbjVd4=
+            hashcode: ujJzwu8brYkenCZGTU/8/FfY4EV+T1C+hJlhjOtFoCY=
             memorySize: '128'
-            modified: '2018-06-17T23:27:13.923+0000'
+            modified: '2018-06-26T22:41:35.188+0000'
             name: surveys
             runtime: nodejs6.10
             timeout: '3'
-            version: QjMQjI12Orjxbg0_pmJbdTrZPU8uOvxP
+            version: B0ztUXarpCoHxl0BJiLoc5ntManOOZW.
           '/surveys/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/surveys-20180617161957.zip
+            codeFilename: uploads/surveys-20180626154047.zip
             description: 'Handler for calls to resource path : /surveys/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: pJtqvEioSJJd7tFiuL0SxQeHExOSxbf15ARGjwbjVd4=
+            hashcode: ujJzwu8brYkenCZGTU/8/FfY4EV+T1C+hJlhjOtFoCY=
             memorySize: '128'
-            modified: '2018-06-17T23:27:13.923+0000'
+            modified: '2018-06-26T22:41:35.188+0000'
             name: surveys
             runtime: nodejs6.10
             timeout: '3'
-            version: efgsiO5zHmSI_SZX8GRY.tbwCJ69QYgd
-      users: !com.amazonaws.mobilehub.v0.API 
+            version: CBLMMXjMNv_QmrJcgOp1ZxXAy.DBFw9n
+      usersCRUD: !com.amazonaws.mobilehub.v0.API 
         attributes:
-          name: users
+          name: usersCRUD
           requires-signin: false
           sdk-generation-stage-name: Development
         paths:
           /users: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/users-20180617172101.zip
+            codeFilename: uploads/users-20180626172837.zip
             description: 'Handler for calls to resource path : /users/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: tqb0LE1cu0mXOrQTlCI598h7rLeQSc9hP402lH5JcNg=
+            hashcode: NIGojswcuNRNPDfWe1GBr0a6zw7SlmmEqnVlciKKhIU=
             memorySize: '128'
-            modified: '2018-06-18T00:22:38.391+0000'
+            modified: '2018-06-27T00:29:33.902+0000'
             name: users
             runtime: nodejs6.10
             timeout: '3'
-            version: rguY5y3CGpgNNAk7UN9mhsrg2NpaBoVq
+            version: l8SqW5JpAE7xWHz5ZAhCT9_if5RjE4A6
           '/users/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/users-20180617172101.zip
+            codeFilename: uploads/users-20180626172837.zip
             description: 'Handler for calls to resource path : /users/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: tqb0LE1cu0mXOrQTlCI598h7rLeQSc9hP402lH5JcNg=
+            hashcode: NIGojswcuNRNPDfWe1GBr0a6zw7SlmmEqnVlciKKhIU=
             memorySize: '128'
-            modified: '2018-06-18T00:22:38.391+0000'
+            modified: '2018-06-27T00:29:33.902+0000'
             name: users
             runtime: nodejs6.10
             timeout: '3'
-            version: d7gj8a2oSVDAuSIew3siKI_WreA8z03G
+            version: D34bmQIsp8qYOOGt57fkajgyBlMvkL4m
       wellnessCRUD: !com.amazonaws.mobilehub.v0.API 
         attributes:
           name: wellnessCRUD
@@ -107,31 +139,31 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /wellness: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/wellness-20180617173001.zip
+            codeFilename: uploads/wellness-20180625192331.zip
             description: 'Handler for calls to resource path : /wellness/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: izpt7WoFmpmOzW56kLJGqOa8biMUAQ/u4VOoXfz+1mg=
+            hashcode: UNX25CKlBwPJ4YraPiXYOxxBoEDDVLz3kNZDEhwxbdE=
             memorySize: '128'
-            modified: '2018-06-18T00:31:17.165+0000'
+            modified: '2018-06-26T02:27:04.077+0000'
             name: wellness
             runtime: nodejs6.10
             timeout: '3'
-            version: 7AtN_IM7c1EzqCtorq79subJ7j..syVd
+            version: uQ_.fTmmzfRw598iA89VYn1qb9Rr0zij
           '/wellness/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/wellness-20180617173001.zip
+            codeFilename: uploads/wellness-20180625192331.zip
             description: 'Handler for calls to resource path : /wellness/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: izpt7WoFmpmOzW56kLJGqOa8biMUAQ/u4VOoXfz+1mg=
+            hashcode: UNX25CKlBwPJ4YraPiXYOxxBoEDDVLz3kNZDEhwxbdE=
             memorySize: '128'
-            modified: '2018-06-18T00:31:17.165+0000'
+            modified: '2018-06-26T02:27:04.077+0000'
             name: wellness
             runtime: nodejs6.10
             timeout: '3'
-            version: ISqqZALbpCuRYMda5Jpn8GP7I_xat3zP
+            version: ShiIiTMI0HAVwpFF6wyjCS6nybzzKlwQ
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
     attributes:
       enabled: true
@@ -142,18 +174,6 @@ features:
     components:
       database-nosql: !com.amazonaws.mobilehub.v0.NoSQLDatabase 
         tables:
-          - !com.amazonaws.mobilehub.v0.NoSQLTable 
-            attributes:
-              id: S
-              surveyId: S
-              time: N
-              userId: S
-            hashKeyName: id
-            hashKeyType: S
-            rangeKeyName: ''
-            rangeKeyType: ''
-            tableName: ___DYNAMIC_PREFIX___-notify
-            tablePrivacy: public
           - !com.amazonaws.mobilehub.v0.NoSQLTable 
             attributes:
               category: S
@@ -168,12 +188,55 @@ features:
             tablePrivacy: public
           - !com.amazonaws.mobilehub.v0.NoSQLTable 
             attributes:
+              email: S
+              identityid: S
+              phone: S
+            hashKeyName: identityid
+            hashKeyType: S
+            rangeKeyName: ''
+            rangeKeyType: ''
+            tableName: ___DYNAMIC_PREFIX___-users
+            tablePrivacy: public
+          - !com.amazonaws.mobilehub.v0.NoSQLTable 
+            attributes:
+              email: S
+              personId: S
+              personName: S
+              phone: S
+              teamId: S
+            hashKeyName: teamId
+            hashKeyType: S
+            indexes:
+              - !com.amazonaws.mobilehub.v0.NoSQLIndex 
+                hashKeyName: teamId
+                hashKeyType: S
+                indexName: personName-index
+                rangeKeyName: personName
+                rangeKeyType: S
+            rangeKeyName: personId
+            rangeKeyType: S
+            tableName: ___DYNAMIC_PREFIX___-AWSMobileTable
+            tablePrivacy: public
+          - !com.amazonaws.mobilehub.v0.NoSQLTable 
+            attributes:
               id: S
             hashKeyName: id
             hashKeyType: S
             rangeKeyName: ''
             rangeKeyType: ''
             tableName: ___DYNAMIC_PREFIX___-wellness
+            tablePrivacy: public
+          - !com.amazonaws.mobilehub.v0.NoSQLTable 
+            attributes:
+              id: S
+              scheduled_at: S
+              survey: M
+              user_id: S
+            hashKeyName: id
+            hashKeyType: S
+            rangeKeyName: ''
+            rangeKeyType: ''
+            tableName: ___DYNAMIC_PREFIX___-notify
             tablePrivacy: public
   mobile-analytics: !com.amazonaws.mobilehub.v0.Pinpoint 
     components:
@@ -192,9 +255,9 @@ features:
           name: userpool
           password-policy: !com.amazonaws.mobilehub.ConvertibleMap 
             min-length: '8'
-            require-lower-case: false
-            require-numbers: false
-            require-symbols: false
-            require-upper-case: false
-name: HappyPlace
+            require-lower-case: true
+            require-numbers: true
+            require-symbols: true
+            require-upper-case: true
+name: HappyPlaceApp
 region: us-west-2

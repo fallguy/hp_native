@@ -24,6 +24,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 ////////////////////////////////////////////////////////////////////
 const mhprefix = process.env.MOBILE_HUB_DYNAMIC_PREFIX;
 let surveyTableName = "surveys";
+let userTableName = "users";
 let notifyTableName = "notify";
 const notifyPath = "/notify";
 const hasDynamicPrefix = true;
@@ -51,8 +52,9 @@ app.use(function(req, res, next) {
 
 ////////////////////////////////////////////////////////////////////
 
+
 // Get list of surveys from Surveys Endpoint
-function getSurveys(req, res) {
+function getSurveys(callback) {
   let queryParams = {
     TableName: surveyTableName
   } 
@@ -61,29 +63,51 @@ function getSurveys(req, res) {
 
   dynamodb.scan(queryParams, (err, data) => {
     if (err) {
-      res.json({error: 'Could not load items: ' + err});
+      callback({error: 'Could not load items: ' + err});
     } else {
-      results = res.json(data.Items);
+      callback(results = data.Items);
     }
   });
 
-  return results;
+  //console.log(results);
+  
+}
+
+function getNotify(callback) {
+  let queryParams = {
+    TableName: notifyTableName
+  }
+
+  let results = {};
+
+  dynamodb.scan(queryParams, (err, data) => {
+    if (err) {
+      callback({error: 'Could not load notify items: ' + err});
+    } else {
+      callback(results = data.Items);
+    }
+  });
+
 }
 
 // Get list of users from Users Endpoint
-function getUsers() {
-  cognitoIdentityService.listUsers(params, (err, data) => {
-    if (!err) {
-      console.log('Successfull...');
-      res.json({success: 'get call succeed!', url: req.url, users: data})
-      console.log(JSON.stringify(data));
-    } else {
-      console.log('Error...');
-      res.json({success: 'get false!', url: req.url})
-      console.log(JSON.stringify(err));
-    }
-  });
-}
+//function getUsers(callback) {
+//  let queryParams = {
+//    TableName: userTableName
+//  } 
+//
+//  let results = {};
+//
+//  dynamodb.scan(queryParams, (err, data) => {
+//    if (err) {
+//      callback({error: 'Could not load items: ' + err});
+//    } else {
+//      callback(results = data.Items);
+//    }
+//  });
+//
+//  console.log(results);
+//}
 
 // Writes the new notification objects to Notify Endpoint 
 //function writesToNotifyEndPoint(newNotification) {
@@ -97,8 +121,20 @@ function getUsers() {
  **********************/
 
 app.get('/notificationEngine', function(req, res) {
-  let surveys = getSurveys();
-  let users = getUsers();
+
+  let surveyResults = getSurveys(function(rs){
+    console.log('suh survey',rs);
+    res.json({rs});
+  });
+
+  let notifyResults = getNotify(function(rn){
+    console.log('suh notify',rn)
+    res.json({rn});
+  });
+  // let userResults = getUsers(function(ru){
+ //   console.log('suh user', ru);
+ //   res.json({ru});
+ // });
 
   // let userId = users.id;
   //
@@ -114,7 +150,6 @@ app.get('/notificationEngine', function(req, res) {
   //res.json(req.apiGateway.event);
   // Return the API Gateway event and query string parameters for example
   //res.json({success: 'got the surveys', url: req.url, body: req.body});
-  res.json({surveys});
 });
 
 //app.get('/notificationEngine/*', function(req, res) {
