@@ -79,8 +79,9 @@ app.get('/notify', function (req, res) {
 app.get('/notify/user', function (req, res) {
   dynamodb.query({
     TableName: tableName,
+    IndexName: 'users',
     KeyConditions: {
-      userId: {
+      user_id: {
         ComparisonOperator: 'EQ',
         AttributeValueList: [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH],
       },

@@ -46,6 +46,7 @@ app.use(awsServerlessExpressMiddleware.eventContext({ deleteHeaders: false }), b
   next()
 });
 
+
 // convert url string param to expected Type
 const convertUrlType = (param, type) => {
   switch(type) {
