@@ -30,7 +30,7 @@ export default class SliderWidget extends Component {
     if (props.notification_array && props.notification_array instanceof Array) {
       this.state.notification = props.notification_array.reduce(function(max, curr){ 
         return ( curr != undefined && curr.scheduled_at != null & max.scheduled_at != null && curr.scheduled_at > max.scheduled_at ) 
-          ? cur : max;
+          ? curr : max;
         });
       
       
