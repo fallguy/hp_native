@@ -21,6 +21,7 @@ export default class ClassSlider extends Component {
 
   async handleAddSubmission(newSubmission) {
     let notification = this.state.notification_array;
+    console.warn(newSubmission);
     await API.post('wellnessCRUD', '/wellness', { body: newSubmission });
   }
 
