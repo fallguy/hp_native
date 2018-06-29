@@ -21,9 +21,9 @@ const hasDynamicPrefix = true;
 const userIdPresent = false;
 const partitionKeyName = "id";
 const partitionKeyType = "S"
-const sortKeyName = "time";
-const sortKeyType = "N";
-const hasSortKey = true;
+const sortKeyName = "";
+const sortKeyType = "";
+const hasSortKey = false;
 const path = "/notify";
 
 const awsmobile = {}
@@ -59,7 +59,44 @@ const convertUrlType = (param, type) => {
 /********************************
  * HTTP Get method for list objects *
  ********************************/
+app.get('/notify', function (req, res) {
 
+  let queryParams = {
+    TableName: tableName
+  }
+
+  dynamodb.scan(queryParams, (err, data) => {
+    if (err) {
+      res.json({
+        error: 'Could not load items: ' + err
+      });
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
+
+app.get('/notify/user', function (req, res) {
+  dynamodb.query({
+    TableName: tableName,
+    KeyConditions: {
+      user_id: {
+        ComparisonOperator: 'EQ',
+        AttributeValueList: [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH],
+      },
+    },
+  }, (err, data) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({
+        message: 'Could not load data',
+      }).end();
+    } else {
+      res.json(data.Items).end();
+    }
+  });
+
+});
 app.get('/notify/:id', function(req, res) {
   var condition = {}
   condition[partitionKeyName] = {

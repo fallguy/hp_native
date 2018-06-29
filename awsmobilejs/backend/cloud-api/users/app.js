@@ -6,97 +6,224 @@ or in the "license" file accompanying this file. This file is distributed on an 
 See the License for the specific language governing permissions and limitations under the License.
 */
 
-var express = require('express')
-var bodyParser = require('body-parser')
-var AWS = require('aws-sdk')
-var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
-const cognitoIdentityService = new AWS.CognitoIdentityServiceProvider({region: process.env.REGION});
-const params = {
-  "UserPoolId": "us-east-2_t35rIItT3"
-};
+const express = require('express')
+const bodyParser = require('body-parser')
+const AWS = require('aws-sdk')
+const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
+
+AWS.config.update({ region: process.env.REGION });
+const dynamodb = new AWS.DynamoDB.DocumentClient();
+
+const mhprefix  = process.env.MOBILE_HUB_DYNAMIC_PREFIX;
+let tableName = "users";
+const hasDynamicPrefix = true;
+
+const userIdPresent = false;
+const partitionKeyName = "identityid";
+const partitionKeyType = "S"
+const sortKeyName = "";
+const sortKeyType = "";
+const hasSortKey = false;
+const path = "/users";
+
+const awsmobile = {}
+
+if (hasDynamicPrefix) {
+  tableName = mhprefix + '-' + tableName;
+} 
+
+const UNAUTH = 'UNAUTH';
+
 // declare a new express app
 var app = express()
-app.use(bodyParser.json())
-app.use(awsServerlessExpressMiddleware.eventContext())
-
-// Enable CORS for all methods
-app.use(function(req, res, next) {
+app.use(awsServerlessExpressMiddleware.eventContext({ deleteHeaders: false }), bodyParser.json(), function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   next()
 });
 
+// convert url string param to expected Type
+const convertUrlType = (param, type) => {
+  switch(type) {
+    case "N":
+      return Number.parseInt(param);
+    default:
+      return param;
+  }
+}
 
-AWS.config.update({ region: process.env.REGION })
-
-/**********************
- * Example get method *
- **********************/
-
+/********************************
+ * HTTP Get method for list objects *
+ ********************************/
 app.get('/users', function(req, res) {
-  // Add your code here
-  // Return the API Gateway event and query string parameters for example
-  cognitoIdentityService.listUsers(params, (err, data) => {
-    if (!err) {
-        console.log('Successfull...');
-        res.json({success: 'get call succeed!', url: req.url, users: data})
-        console.log(JSON.stringify(data));
+ 
+  let queryParams = {
+    TableName: tableName
+  } 
+
+  dynamodb.scan(queryParams, (err, data) => {
+    if (err) {
+      res.json({error: 'Could not load items: ' + err});
     } else {
-        console.log('Error...');
-        res.json({success: 'get false!', url: req.url})
-        console.log(JSON.stringify(err));
+      res.json(data.Items);
     }
-   
   });
-  //res.json(req.apiGateway.event);
 });
 
-app.get('/users/*', function(req, res) {
-  // Add your code here
+app.get('/users/:identityid', function(req, res) {
+  var condition = {}
+  condition[partitionKeyName] = {
+    ComparisonOperator: 'EQ'
+  }
   
-  res.json({success: 'get call succeed!', url: req.url});
+  if (userIdPresent && req.apiGateway) {
+    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH ];
+  } else {
+    try {
+      condition[partitionKeyName]['AttributeValueList'] = [ convertUrlType(req.params[partitionKeyName], partitionKeyType) ];
+    } catch(err) {
+      res.json({error: 'Wrong column type ' + err});
+    }
+  }
+
+  let queryParams = {
+    TableName: tableName,
+    KeyConditions: condition
+  } 
+
+  dynamodb.query(queryParams, (err, data) => {
+    if (err) {
+      res.json({error: 'Could not load items: ' + err});
+    } else {
+      res.json(data.Items);
+    }
+  });
 });
 
-/****************************
-* Example post method *
-****************************/
+/*****************************************
+ * HTTP Get method for get single object *
+ *****************************************/
 
-app.post('/users', function(req, res) {
-  // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
+app.get('/users/object/:identityid', function(req, res) {
+  var params = {};
+  if (userIdPresent && req.apiGateway) {
+    params[partitionKeyName] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  } else {
+    params[partitionKeyName] = req.params[partitionKeyName];
+    try {
+      params[partitionKeyName] = convertUrlType(req.params[partitionKeyName], partitionKeyType);
+    } catch(err) {
+      res.json({error: 'Wrong column type ' + err});
+    }
+  }
+  if (hasSortKey) {
+    try {
+      params[sortKeyName] = convertUrlType(req.params[sortKeyName], sortKeyType);
+    } catch(err) {
+      res.json({error: 'Wrong column type ' + err});
+    }
+  }
+
+  let getItemParams = {
+    TableName: tableName,
+    Key: params
+  }
+
+  dynamodb.get(getItemParams,(err, data) => {
+    if(err) {
+      res.json({error: 'Could not load items: ' + err.message});
+    } else {
+      if (data.Item) {
+        res.json(data.Item);
+      } else {
+        res.json(data) ;
+      }
+    }
+  });
 });
 
-app.post('/users/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
+
+/************************************
+* HTTP put method for insert object *
+*************************************/
+
+app.put(path, function(req, res) {
+  
+  if (userIdPresent) {
+    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  }
+
+  let putItemParams = {
+    TableName: tableName,
+    Item: req.body
+  }
+  dynamodb.put(putItemParams, (err, data) => {
+    if(err) {
+      res.json({error: err, url: req.url, body: req.body});
+    } else{
+      res.json({success: 'put call succeed!', url: req.url, data: data})
+    }
+  });
 });
 
-/****************************
-* Example post method *
-****************************/
+/************************************
+* HTTP post method for insert object *
+*************************************/
 
-app.put('/users', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
+app.post(path, function(req, res) {
+  
+  if (userIdPresent) {
+    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  }
+
+  let putItemParams = {
+    TableName: tableName,
+    Item: req.body
+  }
+  dynamodb.put(putItemParams, (err, data) => {
+    if(err) {
+      res.json({error: err, url: req.url, body: req.body});
+    } else{
+      res.json({success: 'post call succeed!', url: req.url, data: data})
+    }
+  });
 });
 
-app.put('/users/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
-});
+/**************************************
+* HTTP remove method to delete object *
+***************************************/
 
-/****************************
-* Example delete method *
-****************************/
+app.delete('/users/object/:identityid', function(req, res) {
+  var params = {};
+  if (userIdPresent && req.apiGateway) {
+    params[partitionKeyName] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  } else {
+    params[partitionKeyName] = req.params[partitionKeyName];
+     try {
+      params[partitionKeyName] = convertUrlType(req.params[partitionKeyName], partitionKeyType);
+    } catch(err) {
+      res.json({error: 'Wrong column type ' + err});
+    }
+  }
+  if (hasSortKey) {
+    try {
+      params[sortKeyName] = convertUrlType(req.params[sortKeyName], sortKeyType);
+    } catch(err) {
+      res.json({error: 'Wrong column type ' + err});
+    }
+  }
 
-app.delete('/users', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
-});
-
-app.delete('/users/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
+  let removeItemParams = {
+    TableName: tableName,
+    Key: params
+  }
+  dynamodb.delete(removeItemParams, (err, data)=> {
+    if(err) {
+      res.json({error: err, url: req.url});
+    } else {
+      res.json({url: req.url, data: data});
+    }
+  });
 });
 
 app.listen(3000, function() {
