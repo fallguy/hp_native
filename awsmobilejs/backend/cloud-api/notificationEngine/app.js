@@ -34,6 +34,7 @@ var currentDateAndTime = new Date();
 if (hasDynamicPrefix) {
   surveyTableName = mhprefix + '-' + surveyTableName;
   notifyTableName = mhprefix + '-' + notifyTableName;
+  userTableName = mhprefix + '-' + userTableName;
 }
 ////////////////////////////////////////////////////////////////////
 
@@ -151,7 +152,20 @@ app.get('/notificationEngine', function(req, res) {
   // Return the API Gateway event and query string parameters for example
   //res.json({success: 'got the surveys', url: req.url, body: req.body});
 });
+app.get('/notificationEngine/users', function(req, res) {
 
+  let queryParams = {
+    TableName: userTableName
+  } 
+
+  dynamodb.scan(queryParams, (err, data) => {
+    if (err) {
+      res.json({error: 'Could not load items: ' + err});
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
 //app.get('/notificationEngine/*', function(req, res) {
 // Add your code here
 //  res.json({success: 'get call succeed!', url: req.url});
