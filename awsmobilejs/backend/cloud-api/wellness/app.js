@@ -28,7 +28,6 @@ const path = "/wellness";
 
 const awsmobile = {}
 
-
 if (hasDynamicPrefix) {
   tableName = mhprefix + '-' + tableName;
 } 

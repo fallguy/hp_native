@@ -80,7 +80,7 @@ app.get('/notify/user', function (req, res) {
   dynamodb.query({
     TableName: tableName,
     KeyConditions: {
-      user_id: {
+      userId: {
         ComparisonOperator: 'EQ',
         AttributeValueList: [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH],
       },
