@@ -23,25 +23,21 @@ export default class SliderWidget extends Component {
       app_version: "1.0.0",
       location: {},
       user_id: "",
-    	notification: {},
+    	notification: props.notification,
       notification_object: {},
       survey_object: {},
     };
-    if (props.notification_array && props.notification_array instanceof Array) {
-      this.state.notification = props.notification_array.reduce(function(max, curr){ 
-        return ( curr != undefined && curr.scheduled_at != null & max.scheduled_at != null && curr.scheduled_at > max.scheduled_at ) 
-          ? curr : max;
-        });
       
+    this.state.notification = this.props.notification;
       
-      
-    }
+    
 	}
 
   componentDidMount() {
     this._getLocationAsync();
-    let notificationObject = this.state.notification;
-    this.setState({ notificationObject: notificationObject });
+
+    let notificationObject = this.props.notification;
+    this.setState({ notification: notificationObject, notificationObject: notificationObject });
   }
 
   getVal(val) {
@@ -85,7 +81,6 @@ export default class SliderWidget extends Component {
       "survey": survey_object,
       "location": location_object,
     };
-    console.warn(newSubmission);
     this.props.submitSlider(newSubmission);
   }
 

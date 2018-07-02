@@ -11,26 +11,29 @@ export default class ClassSlider extends Component {
     this.state = {
       notification_array: [],
       metric: 0,
+      notification: {},
 
-    };
+    }
   }
+
   async componentDidMount() {
-    let notification_arrayfromserv = await API.get('notifyCRUD', `/notify/`);
-    this.setState({ notification_array: notification_arrayfromserv });
+
   }
 
   async handleAddSubmission(newSubmission) {
-    let notification = this.state.notification_array;
     console.warn(newSubmission);
     await API.post('wellnessCRUD', '/wellness', { body: newSubmission });
   }
 
   render() {
+    const { navigation } = this.props;
+    const notification = navigation.getParam('notification');
+
     return (
       <View style={styles.container}>
        {this.state.user_sub}
-       {this.state.notification_array.length > 0 &&
-         <SliderWidget navigation={this.props.navigation} notification_array={this.state.notification_array} submitSlider={this.handleAddSubmission.bind(this)}/>
+       {notification &&
+           <SliderWidget navigation={this.props.navigation} notification={notification} submitSlider={this.handleAddSubmission.bind(this)}/>
         }
       </View>
     );
