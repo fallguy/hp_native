@@ -36,14 +36,12 @@ export default class Home extends Component {
         return ( curr != undefined && curr.scheduled_at != null & max.scheduled_at != null && curr.scheduled_at > max.scheduled_at ) 
           ? curr : max;
         });
-
-      // console.warn(this.state.notification);
     }
 
     let notificationObject = this.state.notification;
     this.setState({ notificationObject: notificationObject });
 
-    console.warn(this.state.notificationObject);
+    // console.warn(this.state.notificationObject);
 
     if (this.state.notification =! null) {
         this.surveryAlert();
@@ -51,8 +49,9 @@ export default class Home extends Component {
   }
 
   async issueSurvey() {
-    this.props.navigation.navigate('SliderInput');
-    console.warn(this.state.notificationObject);
+    this.props.navigation.navigate('SliderInput', {
+              notification: this.state.notificationObject}
+              );
   }
 
   surveryAlert = () =>  {
