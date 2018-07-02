@@ -12,12 +12,14 @@ export default class ClassSlider extends Component {
       notification_array: [],
       metric: 0,
       notification: {},
+      survey: []
 
     }
   }
 
   async componentDidMount() {
-
+    let survey = await API.get('surveysCRUD', `/surveys/390a18f1-4878-4318-b6e3-3ae967c1dd41`);
+    this.setState({ survey });
   }
 
   async handleAddSubmission(newSubmission) {
@@ -34,6 +36,9 @@ export default class ClassSlider extends Component {
        {this.state.user_sub}
        {notification &&
            <SliderWidget navigation={this.props.navigation} notification={notification} submitSlider={this.handleAddSubmission.bind(this)}/>
+        }
+        {!notification && this.state.survey.length > 0 &&
+           <SliderWidget navigation={this.props.navigation} survey={this.state.survey[0]} submitSlider={this.handleAddSubmission.bind(this)}/>
         }
       </View>
     );
