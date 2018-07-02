@@ -25,11 +25,12 @@ export default class SliderWidget extends Component {
       user_id: "",
     	notification: props.notification,
       notification_object: {},
-      survey_object: {},
+      survey: {},
     };
       
     this.state.notification = this.props.notification;
-      
+    
+    
     
 	}
 
@@ -37,7 +38,19 @@ export default class SliderWidget extends Component {
     this._getLocationAsync();
 
     let notificationObject = this.props.notification;
-    this.setState({ notification: notificationObject, notificationObject: notificationObject });
+    let survey = this.props.survey;
+    if(!survey){
+      survey = notificationObject.survey;
+    }
+    console.warn(notificationObject)
+    let user_id = ""
+    Auth.currentCredentials().then((data) => {
+      console.log(data)
+      let user_id = data.data.IdentityId;
+      this.setState({user_id: user_id})
+    });
+   
+    this.setState({ survey: survey, notification: notificationObject, notificationObject: notificationObject });
   }
 
   getVal(val) {
@@ -59,26 +72,29 @@ export default class SliderWidget extends Component {
   };
 
   okPress (valueSubmit) {
-
-    let notification = this.state.notification;
-
-    const notification_object = this.state.notificationObject;
-    const survey_object = this.state.notification.survey;
+    let notification_object = null;
+    if(this.state.notification){
+      let notification = this.state.notification;
+      notification_object = this.state.notificationObject;
+      
+    }
+    
+    const survey = this.state.survey;
     const location_object = this.state.locationObject;
 
     const id = uuid.v4();
     const answered_at = currentUnixTime;
     const sliderVal = this.state.metric;
     const app_version = this.state.app_version;
-    const user_id = notification.user_id;
+    
     const newSubmission = { 
       "id": id.toString(),
-      "user_id": user_id,
+      "user_id": this.state.user_id,
       "answered_at": answered_at,
       "wellness_value": sliderVal,
       "app_version": app_version,
       "notification": notification_object,
-      "survey": survey_object,
+      "survey": survey,
       "location": location_object,
     };
     this.props.submitSlider(newSubmission);
@@ -112,7 +128,7 @@ export default class SliderWidget extends Component {
   render() {
     return (
         <View>
-          <Text style={styles.question}>{this.state.notification.survey.question}</Text>
+          <Text style={styles.question}>{this.state.survey.question}</Text>
           <View style={styles.sliderContainer}>
           <View style={styles.descriptor}>
             <Text>Not at all</Text>
