@@ -25,6 +25,11 @@ export default class ClassSlider extends Component {
   async handleAddSubmission(newSubmission) {
     console.warn(newSubmission);
     await API.post('wellnessCRUD', '/wellness', { body: newSubmission });
+    this.props.navigation.navigate('QuotePage');
+    // await API.post('wellnessCRUD', '/wellness', { body: newSubmission }).then(function(res){
+    //   this.props.navigation.navigate('QuotePage');
+    // });
+    
   }
 
   render() {
