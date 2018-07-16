@@ -8,7 +8,7 @@ import Profile from './screens/Profile';
 import Survey from './screens/Survey';
 import SliderInput from './screens/SliderInput';
 import QuotePage from './screens/QuotePage';
-
+import SimpleStack from './stackNav';
 
 let screen = Dimensions.get('window');
 
@@ -34,15 +34,8 @@ export const Tabs = createBottomTabNavigator({
       tabBarIcon: ({ tintColor }) => <Icon name="ios-map-outline" type="ionicon" size={28} color={tintColor} />
     },
   },
-  'QuotePage': {
-    screen: QuotePage,
-    navigationOptions: {
-      tabBarLabel: 'QuotePage',
-      tabBarIcon: ({ tintColor }) => <Icon name="ios-map-outline" type="ionicon" size={28} color={tintColor} />
-    },
-  },
   'SliderInput': {
-    screen: SliderInput,
+    screen: SimpleStack,
     navigationOptions: {
       tabBarLabel: 'SliderInput',
       tabBarIcon: ({ tintColor }) => <Icon name="ios-map-outline" type="ionicon" size={28} color={tintColor} />

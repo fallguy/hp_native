@@ -28,7 +28,7 @@ export default class Home extends Component {
       this.setState({user: user})
     });
 
-    let notification_arrayfromserv = await API.get('notifyCRUD', `/notify/`);
+    let notification_arrayfromserv = await API.get('notifyCRUD', `/notify/user`);
     this.setState({ notification_array: notification_arrayfromserv });
 
     if (this.state.notification_array && this.state.notification_array instanceof Array) {

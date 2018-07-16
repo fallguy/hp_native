@@ -6,7 +6,9 @@ import {
     Text,
     View
 } from 'react-native';
+import { StackActions, NavigationActions } from 'react-navigation';
 
+  
 /*
         var quotes = 
         [
@@ -460,6 +462,16 @@ export default class QuotePage extends Component {
             this.setState({
                 randAuth: rand.author
             });
+            // const resetAction = StackActions.reset({
+            //     index: 0,
+            //     actions: [NavigationActions.navigate({ routeName: 'SliderInput' })],
+            //   });
+            // const didBlurSubscription = this.props.navigation.addListener(
+            //     'didBlur',
+            //     payload => {
+            //         this.props.navigation.dispatch(resetAction);
+            //     }
+            //   );
         };
 
     render() {
