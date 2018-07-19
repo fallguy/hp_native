@@ -29,9 +29,10 @@ export default class Home extends Component {
     });
 
     let notification_arrayfromserv = await API.get('notifyCRUD', `/notify/user`);
+   
     this.setState({ notification_array: notification_arrayfromserv });
 
-    if (this.state.notification_array && this.state.notification_array instanceof Array) {
+    if (this.state.notification_array && this.state.notification_array instanceof Array && this.state.notification_array.length > 0) {
       this.state.notification = this.state.notification_array.reduce(function(max, curr){ 
         return ( curr != undefined && curr.scheduled_at != null & max.scheduled_at != null && curr.scheduled_at > max.scheduled_at ) 
           ? curr : max;
@@ -41,9 +42,9 @@ export default class Home extends Component {
     let notificationObject = this.state.notification;
     this.setState({ notificationObject: notificationObject });
 
-    // console.warn(this.state.notificationObject);
+    
 
-    if (this.state.notification =! null) {
+      if (Object.keys(this.state.notification).length != 0) {
         this.surveryAlert();
       }
   }

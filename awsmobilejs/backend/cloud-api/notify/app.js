@@ -77,13 +77,14 @@ app.get('/notify', function (req, res) {
 });
 
 app.get('/notify/user', function (req, res) {
+  var userid = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   dynamodb.query({
     TableName: tableName,
     IndexName: 'users',
     KeyConditions: {
       user_id: {
         ComparisonOperator: 'EQ',
-        AttributeValueList: [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH],
+        AttributeValueList: [userid],
       },
     },
   }, (err, data) => {
@@ -93,11 +94,50 @@ app.get('/notify/user', function (req, res) {
         message: 'Could not load data',
       }).end();
     } else {
-      res.json(data.Items).end();
+      if(!(data.Items instanceof Array)){
+        console.log('malformed response from AWS, no Items in: ' + JSON.stringify(data));
+        res.status(500).json({
+          message: 'Could not load data',
+        }).end();
+      }
+      var dropcount = 0;
+      var sendMe = [];
+      for(i = 0; i < data.Items.length; i++) {
+        var item = data.Items[i];
+        if(!('sent_at' in item)){
+          sendMe.push(item);
+          updateSent(item.id);
+        } else {
+          dropcount++;
+        }
+      }
+      console.log('number of items dropped: ' + dropcount);
+      res.json(sendMe).end();
     }
   });
 
 });
+
+
+function updateSent(notify_id) {
+  var params = {
+    TableName: tableName,
+    Key: {"id": notify_id},
+    ExpressionAttributeNames: {'#changeme': 'sent_at'},
+    ExpressionAttributeValues: {":now" : Date.now()},
+    UpdateExpression: "set #changeme = :now",
+    ReturnValues: "UPDATED_NEW"
+  };
+  dynamodb.update(params, function(err, data) {
+    if(err) {
+      console.log(err, err.stack)
+    } else {
+      return true;
+    }
+  });
+}
+
+
 app.get('/notify/:id', function(req, res) {
   var condition = {}
   condition[partitionKeyName] = {
