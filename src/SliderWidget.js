@@ -69,6 +69,7 @@ export default class SliderWidget extends Component {
    let location = await Location.getCurrentPositionAsync({});
    this.setState({ locationResult: JSON.stringify(location) });
    this.setState({ locationObject: location });
+   console.warn(this.state)
   };
 
   okPress (valueSubmit) {

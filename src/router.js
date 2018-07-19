@@ -6,6 +6,7 @@ import { Icon } from 'react-native-elements';
 import Home from './screens/Home';
 import Profile from './screens/Profile';
 import Survey from './screens/Survey';
+import Map from './screens/Map';
 import SliderInput from './screens/SliderInput';
 import QuotePage from './screens/QuotePage';
 import SimpleStack from './stackNav';
@@ -38,6 +39,13 @@ export const Tabs = createBottomTabNavigator({
     screen: SimpleStack,
     navigationOptions: {
       tabBarLabel: 'SliderInput',
+      tabBarIcon: ({ tintColor }) => <Icon name="ios-map-outline" type="ionicon" size={28} color={tintColor} />
+    },
+  },
+  'Map': {
+    screen: Map,
+    navigationOptions: {
+      tabBarLabel: 'Map',
       tabBarIcon: ({ tintColor }) => <Icon name="ios-map-outline" type="ionicon" size={28} color={tintColor} />
     },
   },
