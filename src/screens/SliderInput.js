@@ -6,6 +6,8 @@ import { createStackNavigator } from 'react-navigation';
 
 
 export default class ClassSlider extends Component {
+
+
   constructor(props) {
     super(props);
     this.state = {

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { ScrollView,StyleSheet,  Text, TextInput, View, Button, Dimensions, Platform, Alert } from 'react-native';
+import { ScrollView,StyleSheet,  Text, TextInput, View, Button, Dimensions, Platform, Alert} from 'react-native';
 import { API, Auth } from 'aws-amplify';
 import aws_exports from '../aws-exports';
 import { Icon } from 'react-native-elements';
 import { LineChart, Grid } from 'react-native-svg-charts'
 export default class Home extends Component {
+
+
   constructor(props) {
     super(props);
     this.state = {
@@ -14,11 +16,12 @@ export default class Home extends Component {
       notification: {},
     };
   }
-    signOut() {
-        Auth.signOut()
-        .then(data => console.log(data))
-        .catch(err => console.log(err));
-      }
+
+  signOut() {
+    Auth.signOut()
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+  }
       
   async componentDidMount() {
     let user = ""
@@ -73,47 +76,61 @@ export default class Home extends Component {
         
    
     return (
-        <ScrollView style={{backgroundColor: 'white'}}>
+      <ScrollView style={{backgroundColor: 'white'}}>
+      
         <View style={styles.container}>
-  
 
-  <View >
-    <View>
-    <Text style={styles.header}>Hi, {this.state.user}</Text>
-    <Text style={styles.subheader}>Check out your happiness metrics.</Text>
-    </View>
-    <View style={{flexDirection: 'row', flex: 1}}>
-    <View style={styles.column}>
-  
-      <Text style={{textAlign: 'center', fontSize: 16}}>30-Day{"\n"}Rolling Avg.</Text>
-      <View style={{height: 50,flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
-   
-    <Text>3%</Text>
-    </View>
+          <View>
 
-    </View>
-    <View style={styles.column}>
-  
-    <Text style={{textAlign: 'center', fontSize: 16}}>Trend{"\n"}Rolling Avg.</Text>
-    <View style={{height: 50,flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
-    <Icon name="arrow-up" type="entypo" size={18} color='#00ff00'></Icon>
-    <Text>3%</Text>
-    </View>
-    
-    
-    
-    </View>
-    </View>
-    <LineChart
-                style={{ height: 200 }}
-                data={ data }
-                svg={{ stroke: 'rgb(134, 65, 244)' }}
-                contentInset={{ top: 20, bottom: 20 }}
-            >
-                <Grid/>
-            </LineChart>
-  </View>
-</View>
+            <View>
+              <Text style={styles.header}>Hi, {this.state.user}</Text>
+              <Text style={styles.subheader}>Check out your happiness metrics.</Text>
+            </View>
+
+            <View style={{flexDirection: 'row', flex: 1}}>
+
+              <View style={styles.column}>
+
+                <Text style={{textAlign: 'center', fontSize: 16}}>30-Day{"\n"}Rolling Avg.</Text>
+
+                <View style={{height: 50,flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
+
+                  <Text>3%</Text>
+
+                </View>
+
+              </View>
+
+            <View style={styles.column}>
+
+              <Text style={{textAlign: 'center', fontSize: 16}}>Trend{"\n"}Rolling Avg.</Text>
+
+              <View style={{height: 50,flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
+
+                <Icon name="arrow-up" type="entypo" size={18} color='#00ff00'></Icon>
+                <Text>3%</Text>
+
+              </View>
+
+            </View>
+
+          </View>
+        <LineChart
+        style={{ height: 200 }}
+        data={ data }
+        svg={{ stroke: 'rgb(134, 65, 244)' }}
+        contentInset={{ top: 20, bottom: 20 }}
+        >
+        <Grid/>
+        </LineChart>
+        <Button
+        onPress={() => this.props.navigation.navigate('Profile')}
+        title='Profile'
+        color='steelblue' 
+        />
+        </View>
+        </View>
+
       </ScrollView>
     );
   }

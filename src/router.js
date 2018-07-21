@@ -21,27 +21,27 @@ export const Tabs = createBottomTabNavigator({
       tabBarIcon: ({ tintColor }) => <Icon name="open-book" type="entypo" size={28} color={tintColor} />
     },
   },
-  'Profile': {
-    screen: Profile,
-    navigationOptions: {
-      tabBarLabel: 'Profile',
-      tabBarIcon: ({ tintColor }) => <Icon name="open-book" type="entypo" size={28} color={tintColor} />
-    },
-  },
+//  'Profile': {
+//    screen: Profile,
+//    navigationOptions: {
+//      tabBarLabel: 'Profile',
+//      tabBarIcon: ({ tintColor }) => <Icon name="open-book" type="entypo" size={28} color={tintColor} />
+//    },
+//  },
   'Survey': {
-    screen: Survey,
+    screen: SimpleStack, // TODO: change this back to Survey after updating that screen
     navigationOptions: {
-      tabBarLabel: 'Explore',
-      tabBarIcon: ({ tintColor }) => <Icon name="ios-map-outline" type="ionicon" size={28} color={tintColor} />
+      tabBarLabel: 'Take Survey!',
+      tabBarIcon: ({ tintColor }) => <Icon reverse name="ios-hand" type="ionicon" size={28} color="skyblue" />
     },
   },
-  'SliderInput': {
-    screen: SimpleStack,
-    navigationOptions: {
-      tabBarLabel: 'SliderInput',
-      tabBarIcon: ({ tintColor }) => <Icon name="ios-map-outline" type="ionicon" size={28} color={tintColor} />
-    },
-  },
+//  'SliderInput': {
+//    screen: SimpleStack,
+//    navigationOptions: {
+//      tabBarLabel: 'SliderInput',
+//      tabBarIcon: ({ tintColor }) => <Icon name="ios-map-outline" type="ionicon" size={28} color={tintColor} />
+//    },
+//  },
   'Map': {
     screen: Map,
     navigationOptions: {
@@ -57,9 +57,23 @@ export const createRootNavigator = () => {
       Tabs: {
         screen: Tabs,
         navigationOptions: {
-          gesturesEnabled: false
+          title: 'Happy Place :)',
+          gesturesEnabled: false,
+          headerStyle: {
+            backgroundColor: 'skyblue',
+          },
         }
-      }
+      },
+      Profile: { 
+        screen: Profile,
+        navigationOptions: {
+          title: 'Profile',
+          gesturesEnabled: false,
+          headerStyle: {
+            backgroundColor: 'steelblue',
+          },
+        }
+      },
     },
   );
 };

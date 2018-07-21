@@ -445,6 +445,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 
 export default class QuotePage extends Component {
 
+
     constructor(props) {
         super(props);
             this.state = {
@@ -462,16 +463,6 @@ export default class QuotePage extends Component {
             this.setState({
                 randAuth: rand.author
             });
-            // const resetAction = StackActions.reset({
-            //     index: 0,
-            //     actions: [NavigationActions.navigate({ routeName: 'SliderInput' })],
-            //   });
-            // const didBlurSubscription = this.props.navigation.addListener(
-            //     'didBlur',
-            //     payload => {
-            //         this.props.navigation.dispatch(resetAction);
-            //     }
-            //   );
         };
 
     render() {
@@ -486,7 +477,7 @@ export default class QuotePage extends Component {
                 justifyContent: 'center', 
                 backgroundColor: 'steelblue'
                 }}>
-                    <Text>Thanks!</Text>
+                    <Text>Thank you!</Text>
                 </View>
 
                 <View style={{flex: 3, 
@@ -494,7 +485,7 @@ export default class QuotePage extends Component {
                 justifyContent: 'center', 
                 backgroundColor: 'skyblue'
                 }}>
-                    <Text>"{this.state.randQuote}"</Text>
+                    <Text style={{ margin: 30 }}>"{this.state.randQuote}"</Text>
                     <Text>-- {this.state.randAuth}</Text>
                 </View>
 
@@ -505,12 +496,12 @@ export default class QuotePage extends Component {
                 backgroundColor: 'skyblue'
                 }}>
                     <Button
-                    onPress={() => this.props.navigation.navigate('Profile')}
-                    title='OK'
+                    onPress={() => this.props.navigation.navigate('Home')}
+                    title='Home'
                     color='steelblue' 
                     />
                     <Button
-                    onPress={() => this.props.navigation.navigate('Profile')}
+                    onPress={() => this.props.navigation.navigate('Map')}
                     title='Map'
                     color='steelblue' 
                     />

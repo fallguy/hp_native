@@ -5,6 +5,8 @@ import { API, Auth } from 'aws-amplify';
 import aws_exports from '../aws-exports';
 
 export default class Map extends Component {
+
+
     constructor(props) {
         super(props);
         this.state = {
