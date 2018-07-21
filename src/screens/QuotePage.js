@@ -462,16 +462,17 @@ export default class QuotePage extends Component {
             this.setState({
                 randAuth: rand.author
             });
-            // const resetAction = StackActions.reset({
-            //     index: 0,
-            //     actions: [NavigationActions.navigate({ routeName: 'SliderInput' })],
-            //   });
-            // const didBlurSubscription = this.props.navigation.addListener(
-            //     'didBlur',
-            //     payload => {
-            //         this.props.navigation.dispatch(resetAction);
-            //     }
-            //   );
+            const resetAction = StackActions.reset({
+                index: 0,
+                actions: [NavigationActions.navigate({ routeName: 'Tabs' })],
+                key: null
+              });
+            const didBlurSubscription = this.props.navigation.addListener(
+                'willBlur',
+                payload => {
+                    this.props.navigation.dispatch(resetAction);
+                }
+              );
         };
 
     render() {
@@ -505,15 +506,11 @@ export default class QuotePage extends Component {
                 backgroundColor: 'skyblue'
                 }}>
                     <Button
-                    onPress={() => this.props.navigation.navigate('Profile')}
+                    onPress={() => this.props.navigation.navigate('Home')}
                     title='OK'
                     color='steelblue' 
                     />
-                    <Button
-                    onPress={() => this.props.navigation.navigate('Profile')}
-                    title='Map'
-                    color='steelblue' 
-                    />
+                    
                 </View>
 
             </View>

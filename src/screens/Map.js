@@ -32,7 +32,7 @@ export default class Map extends Component {
       wellessItems = this.state.wellness.map((wellness,index) => {
         return (
             
-            <MapView.Marker coordinate={wellness} key={index}  />
+            <MapView.Marker coordinate={wellness} key={index} pinColor={'blue'}  />
         )
       });
     }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Slider, Button, Alert } from "react-native";
+import { StyleSheet, Text, View, Slider, Button, Alert, ActivityIndicator } from "react-native";
 import { API, Auth } from 'aws-amplify';
 import SliderWidget from '../SliderWidget';
 import { createStackNavigator } from 'react-navigation';
@@ -12,18 +12,19 @@ export default class ClassSlider extends Component {
       notification_array: [],
       metric: 0,
       notification: {},
-      survey: []
+      survey: [],
+      loading: true
 
     }
   }
 
   async componentDidMount() {
-    let survey = await API.get('surveysCRUD', `/surveys/390a18f1-4878-4318-b6e3-3ae967c1dd41`);
-    this.setState({ survey });
+    let survey = await API.get('surveysCRUD', `/surveys/random`);
+    this.setState({ survey, loading: false });
   }
 
   async handleAddSubmission(newSubmission) {
-    console.warn(newSubmission);
+   
     await API.post('wellnessCRUD', '/wellness', { body: newSubmission });
     this.props.navigation.navigate('QuotePage');
     // await API.post('wellnessCRUD', '/wellness', { body: newSubmission }).then(function(res){
@@ -38,6 +39,7 @@ export default class ClassSlider extends Component {
 
     return (
       <View style={styles.container}>
+      <ActivityIndicator size="large" color="#0000ff" animating={this.state.loading} />
        {this.state.user_sub}
        {notification &&
            <SliderWidget navigation={this.props.navigation} notification={notification} submitSlider={this.handleAddSubmission.bind(this)}/>
