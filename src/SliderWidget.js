@@ -42,10 +42,10 @@ export default class SliderWidget extends Component {
     if(!survey){
       survey = notificationObject.survey;
     }
-    console.warn(notificationObject)
+    
     let user_id = ""
     Auth.currentCredentials().then((data) => {
-      console.log(data)
+    
       let user_id = data.data.IdentityId;
       this.setState({user_id: user_id})
     });
@@ -69,7 +69,7 @@ export default class SliderWidget extends Component {
    let location = await Location.getCurrentPositionAsync({});
    this.setState({ locationResult: JSON.stringify(location) });
    this.setState({ locationObject: location });
-   console.warn(this.state)
+  
   };
 
   okPress (valueSubmit) {

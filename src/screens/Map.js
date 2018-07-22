@@ -30,14 +30,17 @@ export default class Map extends Component {
   render() {
     let wellessItems;
     if (this.state.wellness) {
-        //console.warn(this.state.wellness)
-      wellessItems = this.state.wellness.map((wellness,index) => {
+      //console.warn(this.state.wellness)
+    wellessItems = this.state.wellness.map((wellness,index) => {
+      if(wellness){
         return (
-            
-            <MapView.Marker coordinate={wellness} key={index}  />
-        )
-      });
-    }
+          
+          <MapView.Marker coordinate={wellness} key={index}  />
+      )
+      }
+      
+    });
+  }
     return (
         <ScrollView style={{backgroundColor: 'white', flex: 1}}>
         <View>
