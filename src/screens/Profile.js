@@ -3,6 +3,8 @@ import { StyleSheet,  Text, TextInput, View, Button, Dimensions, Platform } from
 import { API, Auth } from 'aws-amplify';
 import aws_exports from '../aws-exports';
 export default class Profile extends Component {
+
+
     signOut() {
         Auth.signOut()
         .then(data => console.log(data))

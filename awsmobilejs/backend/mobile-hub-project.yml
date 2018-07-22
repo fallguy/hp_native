@@ -11,31 +11,31 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /notificationEngine: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/notificationEngine-20180718200945.zip
+            codeFilename: uploads/notificationEngine-20180720213351.zip
             description: 'Handler for calls to resource path : /notificationEngine/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: JNHly4ghmu5HwPV+9d50bJL5zvqzXG+cjFrXYD3EsSM=
+            hashcode: YDLDKkO4VbskMNBtErhiB1jTYPMf8twheJg04PVwEAQ=
             memorySize: '128'
-            modified: '2018-07-19T03:10:48.245+0000'
+            modified: '2018-07-21T04:35:00.211+0000'
             name: notificationEngine
             runtime: nodejs6.10
             timeout: '3'
-            version: StzfPb..i8GK4BgGux0TcOVDrzCrRV_D
+            version: PKxXo.85RbSsNf3dwuw5DQvC65zSzrJ0
           '/notificationEngine/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/notificationEngine-20180718200945.zip
+            codeFilename: uploads/notificationEngine-20180720213351.zip
             description: 'Handler for calls to resource path : /notificationEngine/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: JNHly4ghmu5HwPV+9d50bJL5zvqzXG+cjFrXYD3EsSM=
+            hashcode: YDLDKkO4VbskMNBtErhiB1jTYPMf8twheJg04PVwEAQ=
             memorySize: '128'
-            modified: '2018-07-19T03:10:48.245+0000'
+            modified: '2018-07-21T04:35:00.211+0000'
             name: notificationEngine
             runtime: nodejs6.10
             timeout: '3'
-            version: B7NKVdbTtbchh7sSzN6mRMaHutPq.fHx
+            version: qE3nfBA3.3wp6nrLDfb9MimSvnGZJeRp
       notifyCRUD: !com.amazonaws.mobilehub.v0.API 
         attributes:
           name: notifyCRUD
@@ -75,31 +75,31 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /surveys: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/surveys-20180715212553.zip
+            codeFilename: uploads/surveys-20180720213351.zip
             description: 'Handler for calls to resource path : /surveys/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: +T9GTs4nV9etrMyqWf+6UueBQQeVbiUtjpcWJDVcGnQ=
+            hashcode: VQe4FSURnSCezvGUUVtNl3K4mQqhq8HhbgNjJ/8ex/s=
             memorySize: '128'
-            modified: '2018-07-16T04:28:36.152+0000'
+            modified: '2018-07-21T04:35:00.382+0000'
             name: surveys
             runtime: nodejs6.10
             timeout: '3'
-            version: QhRA8sWFlQVwjXRsYnMXYgU6miaSfZ_a
+            version: z7poFIOUWvt2r1DcZ96wtzGXD.JCph6H
           '/surveys/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/surveys-20180715212553.zip
+            codeFilename: uploads/surveys-20180720213351.zip
             description: 'Handler for calls to resource path : /surveys/{proxy+}'
             enableCORS: true
             environment: {}
             handler: lambda.handler
-            hashcode: +T9GTs4nV9etrMyqWf+6UueBQQeVbiUtjpcWJDVcGnQ=
+            hashcode: VQe4FSURnSCezvGUUVtNl3K4mQqhq8HhbgNjJ/8ex/s=
             memorySize: '128'
-            modified: '2018-07-16T04:28:36.152+0000'
+            modified: '2018-07-21T04:35:00.382+0000'
             name: surveys
             runtime: nodejs6.10
             timeout: '3'
-            version: SPsJ0zMtazuCzLAzmf41rQ23v0k5qk0L
+            version: 0iV3mYZI3ubqXF8C3yikSXCA_EFOTjhs
       usersCRUD: !com.amazonaws.mobilehub.v0.API 
         attributes:
           name: usersCRUD

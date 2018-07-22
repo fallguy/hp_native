@@ -75,6 +75,26 @@ app.get('/surveys', function(req, res) {
     }
   });
 });
+
+app.get('/surveys/random', function(req, res) {
+ 
+  let queryParams = {
+    TableName: tableName
+  } 
+  
+
+  dynamodb.scan(queryParams, (err, data) => {
+    if (err) {
+      res.json({error: 'Could not load items: ' + err});
+    } else {
+      //console.log(data.Items)
+      var item = data.Items[Math.floor(Math.random()*data.Items.length)];
+      
+      res.json([item]);
+    }
+  });
+});
+
 app.get('/surveys/categories', function(req, res) {
   res.json({data: categories})
 });

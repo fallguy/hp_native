@@ -6,6 +6,8 @@ import {
 } from 'react-native';
 
 export default class Survey extends Component {
+
+
   render() {
     return (
       <View style={styles.container}>
