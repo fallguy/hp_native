@@ -1,6 +1,6 @@
 import { MapView, Marker } from 'expo';
 import React, { Component } from 'react';
-import { StyleSheet,  Text, TextInput, View, Button, Dimensions, Platform, ScrollView } from 'react-native';
+import { StyleSheet,  Text, TextInput, View, Button, Dimensions, Platform, ScrollView, ActivityIndicator } from 'react-native';
 import { API, Auth } from 'aws-amplify';
 import aws_exports from '../aws-exports';
 
@@ -10,13 +10,15 @@ export default class Map extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          wellness: []
+          wellness: [],
+          loading: true
     
         }
       }
     
       async componentDidMount() {
-        let wellnessResult = await API.get('wellnessCRUD', `/wellness`);
+        let wellnessResult = await API.get('wellnessCRUD', `/wellness/user`);
+        console.log(wellnessResult)
         let wellness = wellnessResult.map(wellness => {
            if(wellness.location){
              let result = pick(wellness.location.coords, ['latitude', 'longitude']);
@@ -28,7 +30,7 @@ export default class Map extends Component {
         function pick(obj, keys) {
             return Object.assign({}, ...keys.map(k => k in obj ? {[k]: obj[k]} : {}))
         }
-        this.setState({ wellness });
+        this.setState({ wellness, loading: false });
       }
   render() {
     let wellessItems;
@@ -64,11 +66,13 @@ export default class Map extends Component {
   }
     return (
         <View style={{backgroundColor: 'white', height: '100%'}}>
+        
         <View>
     <Text style={styles.header}>Map</Text>
     <Text style={styles.subheader}>Check out your map data below.</Text>
     </View>
       <View style={{flex: 1}}>
+      
         <MapView
         style={styles.container}
         initialRegion={{
@@ -80,6 +84,7 @@ export default class Map extends Component {
         provider='google'
       >
        {wellessItems}
+       <ActivityIndicator size="large" color="#0000ff" animating={this.state.loading} />
        {/* <MapView.Heatmap points={this.state.wellness}
       opacity={1} radius={20} maxIntensity={100} gradientSmoothing={10} heatmapMode={"POINTS_DENSITY"}/>    
        */}
@@ -92,7 +97,9 @@ export default class Map extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
       },
   title: {
     fontSize: 20,

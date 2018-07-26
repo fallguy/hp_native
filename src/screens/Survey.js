@@ -14,6 +14,7 @@ export default class Survey extends Component {
         
         <View style={{flex: 1, backgroundColor: 'powderblue'}} >
         <Text style={styles.title}>
+        
           Survey
         </Text>
         </View>
