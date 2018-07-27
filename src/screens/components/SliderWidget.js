@@ -149,12 +149,12 @@ export default class SliderWidget extends Component {
           <Button
             onPress={() => this.submitSlider(this.state.newSubmission)}
             title="Submit"
-            color="#841584"
+            color="#7C777A"
           />
           <Button
             onPress={() => this.leaveSurvey()}
             title="Skip Question"
-            color="#841584"
+            color="#7C777A"
           />
 
 

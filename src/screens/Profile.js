@@ -17,7 +17,7 @@ export default class Profile extends Component {
               <Button
   onPress={this.signOut}
   title="Sign Out"
-  color="#841584"
+  color="#7C777A"
   accessibilityLabel="Learn more about this purple button"></Button>
         <Text style={styles.title}>
           Profile
