@@ -12,7 +12,6 @@ import QuotePage from './screens/QuotePage';
 import SimpleStack from './stackNav';
 
 let screen = Dimensions.get('window');
-
 export const Tabs = createBottomTabNavigator({
   'Home': {
     screen: Home,
@@ -21,27 +20,15 @@ export const Tabs = createBottomTabNavigator({
       tabBarIcon: ({ tintColor }) => <Icon name="open-book" type="entypo" size={28} color={tintColor} />
     },
   },
-//  'Profile': {
-//    screen: Profile,
-//    navigationOptions: {
-//      tabBarLabel: 'Profile',
-//      tabBarIcon: ({ tintColor }) => <Icon name="open-book" type="entypo" size={28} color={tintColor} />
-//    },
-//  },
   'Survey': {
     screen: SimpleStack, // TODO: change this back to Survey after updating that screen
     navigationOptions: {
-      tabBarLabel: 'Take Survey!',
-      tabBarIcon: ({ tintColor }) => <Icon reverse name="ios-hand" type="ionicon" size={28} color="skyblue" />
+      tabBarIcon: ({ tintColor }) => <Icon reverse name="create" size={28} color={tintColor} />,
     },
+    tabBarOptions: {
+      showLabel: false,
+    }
   },
-//  'SliderInput': {
-//    screen: SimpleStack,
-//    navigationOptions: {
-//      tabBarLabel: 'SliderInput',
-//      tabBarIcon: ({ tintColor }) => <Icon name="ios-map-outline" type="ionicon" size={28} color={tintColor} />
-//    },
-//  },
   'Map': {
     screen: Map,
     navigationOptions: {
@@ -49,7 +36,22 @@ export const Tabs = createBottomTabNavigator({
       tabBarIcon: ({ tintColor }) => <Icon name="ios-map-outline" type="ionicon" size={28} color={tintColor} />
     },
   },
+}, {
+  tabBarOptions: {
+    style: {
+      backgroundColor: '#495875',
+    },
+    inactiveTintColor: '#A8EDE3',
+    activeTintColor: '#7C777A',
+    showLabel: false,
+  },
 });
+
+// #D1F1D9 tea green
+// #495875 dark blueish purple
+// #F9F9F9 off white
+// #A8EDE3 pale turquoise
+// #7C777A silvery brown
 
 export const createRootNavigator = () => {
   return createStackNavigator(
@@ -60,7 +62,7 @@ export const createRootNavigator = () => {
           title: 'Happy Place :)',
           gesturesEnabled: false,
           headerStyle: {
-            backgroundColor: 'skyblue',
+            backgroundColor: '#D1F1D9',
           },
         }
       },
@@ -70,7 +72,7 @@ export const createRootNavigator = () => {
           title: 'Profile',
           gesturesEnabled: false,
           headerStyle: {
-            backgroundColor: 'steelblue',
+            backgroundColor: '#D1F1D9',
           },
         }
       },

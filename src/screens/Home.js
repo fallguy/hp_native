@@ -3,9 +3,9 @@ import { ScrollView,StyleSheet,  Text, TextInput, View, Button, Dimensions, Plat
 import { API, Auth } from 'aws-amplify';
 import aws_exports from '../aws-exports';
 import { Icon } from 'react-native-elements';
-import { LineChart, Grid } from 'react-native-svg-charts'
-export default class Home extends Component {
+import { LineChart, Grid } from 'react-native-svg-charts';
 
+export default class Home extends Component {
 
   constructor(props) {
     super(props);
@@ -126,7 +126,7 @@ export default class Home extends Component {
         <Button
         onPress={() => this.props.navigation.navigate('Profile')}
         title='Profile'
-        color='steelblue' 
+        color='#7C777A' 
         />
         </View>
         </View>
