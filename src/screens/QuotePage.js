@@ -20,6 +20,7 @@ export default class QuotePage extends Component {
     };
   }
 
+
   componentWillMount() {
     var newRand = Math.floor(Math.random() * quotes.length);
     var rand = quotes[newRand];
@@ -41,6 +42,7 @@ export default class QuotePage extends Component {
       }
     );
   };
+
 
   render() {
     return (

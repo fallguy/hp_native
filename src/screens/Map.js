@@ -19,7 +19,10 @@ export default class Map extends Component {
         let wellnessResult = await API.get('wellnessCRUD', `/wellness`);
         let wellness = wellnessResult.map(wellness => {
            if(wellness.location){
-            return pick(wellness.location.coords, ['latitude', 'longitude'])
+             let result = pick(wellness.location.coords, ['latitude', 'longitude']);
+             result.wellness_value = wellness.wellness_value;
+            //  console.warn(result)
+            return result;
            }
           });
         function pick(obj, keys) {
@@ -33,16 +36,34 @@ export default class Map extends Component {
       //console.warn(this.state.wellness)
     wellessItems = this.state.wellness.map((wellness,index) => {
       if(wellness){
+        let bgcolor = "red";
+          switch(true) {
+            case (wellness.wellness_value < 4):
+           
+                bgcolor = "red"
+                break;
+            case (wellness.wellness_value < 8):
+        
+                bgcolor = "blue"
+                break;
+            case (wellness.wellness_value < 11):
+            
+                bgcolor = "green"
+                break;
+            default: 
+     
+                break;
+        }
+      
         return (
-          
-          <MapView.Marker coordinate={wellness} key={index}  />
-      )
+          <MapView.Marker coordinate={wellness} key={index} pinColor={bgcolor}   />
+        )
       }
       
     });
   }
     return (
-        <ScrollView style={{backgroundColor: 'white', flex: 1}}>
+        <View style={{backgroundColor: 'white', height: '100%'}}>
         <View>
     <Text style={styles.header}>Map</Text>
     <Text style={styles.subheader}>Check out your map data below.</Text>
@@ -64,15 +85,14 @@ export default class Map extends Component {
        */}
         </MapView>
       </View>
-      </ScrollView>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        height: 200,
+        flex: 1
       },
   title: {
     fontSize: 20,

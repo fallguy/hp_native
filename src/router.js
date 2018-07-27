@@ -21,7 +21,7 @@ export const Tabs = createBottomTabNavigator({
     },
   },
   'Survey': {
-    screen: SimpleStack, // TODO: change this back to Survey after updating that screen
+    screen: SliderInput, // TODO: change this back to Survey after updating that screen
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => <Icon reverse name="create" size={28} color={tintColor} />,
     },
@@ -73,6 +73,23 @@ export const createRootNavigator = () => {
           gesturesEnabled: false,
           headerStyle: {
             backgroundColor: '#D1F1D9',
+          },
+        }
+      },
+      QuotePage: {
+        path: '/thanks',
+        screen: QuotePage,
+        navigationOptions: {
+          headerLeft: null,
+        }
+      },
+      Profile: { 
+        screen: Profile,
+        navigationOptions: {
+          title: 'Profile',
+          gesturesEnabled: false,
+          headerStyle: {
+            backgroundColor: 'steelblue',
           },
         }
       },
