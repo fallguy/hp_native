@@ -3,6 +3,8 @@ import { StyleSheet,  Text, TextInput, View, Button, Dimensions, Platform } from
 import { API, Auth } from 'aws-amplify';
 import aws_exports from '../aws-exports';
 export default class Profile extends Component {
+
+
     signOut() {
         Auth.signOut()
         .then(data => console.log(data))
@@ -15,7 +17,7 @@ export default class Profile extends Component {
               <Button
   onPress={this.signOut}
   title="Sign Out"
-  color="#841584"
+  color="#7C777A"
   accessibilityLabel="Learn more about this purple button"></Button>
         <Text style={styles.title}>
           Profile

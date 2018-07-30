@@ -6,12 +6,15 @@ import {
 } from 'react-native';
 
 export default class Survey extends Component {
+
+
   render() {
     return (
       <View style={styles.container}>
         
         <View style={{flex: 1, backgroundColor: 'powderblue'}} >
         <Text style={styles.title}>
+        
           Survey
         </Text>
         </View>

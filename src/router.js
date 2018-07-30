@@ -3,28 +3,55 @@ import { Dimensions, Platform } from 'react-native';
 import { createStackNavigator, TabNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
+import Home from './screens/Home';
 import Profile from './screens/Profile';
 import Survey from './screens/Survey';
-
+import Map from './screens/Map';
+import SliderInput from './screens/SliderInput';
+import QuotePage from './screens/QuotePage';
+import SimpleStack from './stackNav';
 
 let screen = Dimensions.get('window');
-
 export const Tabs = createBottomTabNavigator({
-  'Profile': {
-    screen: Profile,
+  'Home': {
+    screen: Home,
     navigationOptions: {
-      tabBarLabel: 'Profile',
+      tabBarLabel: 'Home',
       tabBarIcon: ({ tintColor }) => <Icon name="open-book" type="entypo" size={28} color={tintColor} />
     },
   },
   'Survey': {
-    screen: Survey,
+    screen: SliderInput, // TODO: change this back to Survey after updating that screen
     navigationOptions: {
-      tabBarLabel: 'Explore',
+      tabBarIcon: ({ tintColor }) => <Icon reverse name="create" size={28} color={tintColor} />,
+    },
+    tabBarOptions: {
+      showLabel: false,
+    }
+  },
+  'Map': {
+    screen: Map,
+    navigationOptions: {
+      tabBarLabel: 'Map',
       tabBarIcon: ({ tintColor }) => <Icon name="ios-map-outline" type="ionicon" size={28} color={tintColor} />
     },
   },
+}, {
+  tabBarOptions: {
+    style: {
+      backgroundColor: '#495875',
+    },
+    inactiveTintColor: '#A8EDE3',
+    activeTintColor: '#7C777A',
+    showLabel: false,
+  },
 });
+
+// #D1F1D9 tea green
+// #495875 dark blueish purple
+// #F9F9F9 off white
+// #A8EDE3 pale turquoise
+// #7C777A silvery brown
 
 export const createRootNavigator = () => {
   return createStackNavigator(
@@ -32,9 +59,40 @@ export const createRootNavigator = () => {
       Tabs: {
         screen: Tabs,
         navigationOptions: {
-          gesturesEnabled: false
+          title: 'Happy Place :)',
+          gesturesEnabled: false,
+          headerStyle: {
+            backgroundColor: '#D1F1D9',
+          },
         }
-      }
+      },
+      Profile: { 
+        screen: Profile,
+        navigationOptions: {
+          title: 'Profile',
+          gesturesEnabled: false,
+          headerStyle: {
+            backgroundColor: '#D1F1D9',
+          },
+        }
+      },
+      QuotePage: {
+        path: '/thanks',
+        screen: QuotePage,
+        navigationOptions: {
+          headerLeft: null,
+        }
+      },
+      Profile: { 
+        screen: Profile,
+        navigationOptions: {
+          title: 'Profile',
+          gesturesEnabled: false,
+          headerStyle: {
+            backgroundColor: 'steelblue',
+          },
+        }
+      },
     },
   );
 };

@@ -7,6 +7,7 @@ import { StyleSheet,  Text, TextInput, View, Button, Dimensions, Platform } from
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import { createRootNavigator } from './router'
+
 Amplify.configure(aws_exports);
 
 
@@ -22,6 +23,15 @@ class App extends React.Component {
     );
   }
 }
+// export default withAuthenticator(App, false, [
+//   <SignIn/>,
+//   <ConfirmSignIn/>,
+//   <VerifyContact/>,
+//   <SignUp/>,
+//   <ConfirmSignUp/>,
+//   <ForgotPassword/>
+// ]);
+
 export default withAuthenticator(App);
 const styles = StyleSheet.create({
   container: {
