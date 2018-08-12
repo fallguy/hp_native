@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { StyleSheet,  Text, TextInput, View, Button, Dimensions, Platform, ScrollView, ActivityIndicator } from 'react-native';
 import { API, Auth } from 'aws-amplify';
 import aws_exports from '../aws-exports';
-
+import { NavigationEvents } from 'react-navigation';
 export default class Map extends Component {
 
 
@@ -15,22 +15,42 @@ export default class Map extends Component {
     
         }
       }
+
+      resetState() {
+
+      }
+     
     
       async componentDidMount() {
-        let wellnessResult = await API.get('wellnessCRUD', `/wellness/user`);
-        console.log(wellnessResult)
-        let wellness = wellnessResult.map(wellness => {
-           if(wellness.location){
-             let result = pick(wellness.location.coords, ['latitude', 'longitude']);
-             result.wellness_value = wellness.wellness_value;
-            //  console.warn(result)
-            return result;
-           }
-          });
-        function pick(obj, keys) {
-            return Object.assign({}, ...keys.map(k => k in obj ? {[k]: obj[k]} : {}))
-        }
-        this.setState({ wellness, loading: false });
+        this._sub = this.props.navigation.addListener(
+          'didFocus',
+          async () => {
+            console.log('mounted')
+            this.setState({loading: true, wellness: [] });
+            
+            let wellnessResult = await API.get('wellnessCRUD', `/wellness/user`);
+            console.log(wellnessResult)
+            let wellness = wellnessResult.map(wellness => {
+              if(wellness.location){
+                let result = pick(wellness.location.coords, ['latitude', 'longitude']);
+                result.wellness_value = wellness.wellness_value;
+                //  console.warn(result)
+                return result;
+              }
+              });
+            function pick(obj, keys) {
+                return Object.assign({}, ...keys.map(k => k in obj ? {[k]: obj[k]} : {}))
+            }
+            this.setState({ wellness, loading: false });
+          }
+        );
+        
+       
+      }
+      componentWillUnmount() {
+        console.log('remove')
+        this._sub.remove();
+       
       }
   render() {
     let wellessItems;
@@ -66,7 +86,7 @@ export default class Map extends Component {
   }
     return (
         <View style={{backgroundColor: 'white', height: '100%'}}>
-        
+       
         <View>
     <Text style={styles.header}>Map</Text>
     <Text style={styles.subheader}>Check out your map data below.</Text>

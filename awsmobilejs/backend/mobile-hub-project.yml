@@ -11,7 +11,7 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /notificationEngine: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/notificationEngine-20180725223638.zip
+            codeFilename: uploads/notificationEngine-20180812145605.zip
             description: 'Handler for calls to resource path : /notificationEngine/{proxy+}'
             enableCORS: true
             environment: {}
@@ -24,7 +24,7 @@ features:
             timeout: '3'
             version: kkqXp6IVUCH1nQe8rVRfyR6n3AgeHHPR
           '/notificationEngine/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/notificationEngine-20180725223638.zip
+            codeFilename: uploads/notificationEngine-20180812145605.zip
             description: 'Handler for calls to resource path : /notificationEngine/{proxy+}'
             enableCORS: true
             environment: {}
@@ -43,7 +43,7 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /notify: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/notify-20180722131821.zip
+            codeFilename: uploads/notify-20180812145605.zip
             description: 'Handler for calls to resource path : /notify/{proxy+}'
             enableCORS: true
             environment: {}
@@ -56,7 +56,7 @@ features:
             timeout: '3'
             version: RqX8rtgNGTFHKSC2g4ze3IIxiEkvSIX8
           '/notify/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/notify-20180722131821.zip
+            codeFilename: uploads/notify-20180812145605.zip
             description: 'Handler for calls to resource path : /notify/{proxy+}'
             enableCORS: true
             environment: {}
@@ -75,7 +75,7 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /surveys: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/surveys-20180722131821.zip
+            codeFilename: uploads/surveys-20180812145014.zip
             description: 'Handler for calls to resource path : /surveys/{proxy+}'
             enableCORS: true
             environment: {}
@@ -88,7 +88,7 @@ features:
             timeout: '3'
             version: Ga8QTJSlL56jk_sBmFiHNZjVVW4.WLN1
           '/surveys/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/surveys-20180722131821.zip
+            codeFilename: uploads/surveys-20180812145014.zip
             description: 'Handler for calls to resource path : /surveys/{proxy+}'
             enableCORS: true
             environment: {}
@@ -139,7 +139,7 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /wellness: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/wellness-20180725223638.zip
+            codeFilename: uploads/wellness-20180812145605.zip
             description: 'Handler for calls to resource path : /wellness/{proxy+}'
             enableCORS: true
             environment: {}
@@ -152,7 +152,7 @@ features:
             timeout: '3'
             version: Q7_0n4UZ8zpBhK7US0PYYJXoSMSvTd3l
           '/wellness/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/wellness-20180725223638.zip
+            codeFilename: uploads/wellness-20180812145605.zip
             description: 'Handler for calls to resource path : /wellness/{proxy+}'
             enableCORS: true
             environment: {}
