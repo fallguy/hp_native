@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Slider, Button, Alert } from "react-native";
+import { StyleSheet, TouchableHighlight, Text, View, Slider, Button, Alert } from "react-native";
 import { API, Auth } from 'aws-amplify';
 import uuid from 'uuid';
 import { Constants, MapView, Location, Permissions } from 'expo';
@@ -146,6 +146,7 @@ export default class SliderWidget extends Component {
             />
             <Text style={styles.metric}>{this.state.metric}</Text>
           </View>
+        {/*
           <Button
             onPress={() => this.submitSlider(this.state.newSubmission)}
             title="Submit"
@@ -156,8 +157,21 @@ export default class SliderWidget extends Component {
             title="Skip Question"
             color="#7C777A"
           />
-
-
+        */}
+          <View style={ styles.button_container }>
+            <TouchableHighlight
+              onPress={() => this.submitSlider(this.state.newSubmission)}
+              style={ styles.button_submit }
+            >
+              <Text style={ styles.button_text }>Submit</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              onPress={() => this.leaveSurvey()}
+              style={ styles.button_skip }
+            >
+              <Text style={ styles.button_text }>Skip</Text>
+            </TouchableHighlight>
+          </View>
         </View>
         
     );
@@ -184,5 +198,25 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     margin: 10
+  },
+  button_submit: {
+    width: '50%',
+    backgroundColor: '#495875',
+    padding: 6
+  },
+  button_skip: {
+    width: '33%',
+    backgroundColor: '#7C777A',
+    padding: 6,
+    marginTop: 10
+  },
+  button_text: {
+    fontSize: 14,
+    color: 'white',
+    alignSelf: 'stretch',
+    textAlign: 'center',
+  },
+  button_container: {
+    alignItems: 'center',
   }
 });

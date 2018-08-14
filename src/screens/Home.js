@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView,StyleSheet,  Text, TextInput, View, Button, Dimensions, Platform, Alert} from 'react-native';
+import { ScrollView, StyleSheet, TouchableHighlight, Text, TextInput, View, Button, Dimensions, Platform, Alert} from 'react-native';
 import { API, Auth } from 'aws-amplify';
 import aws_exports from '../aws-exports';
 import { Icon } from 'react-native-elements';
@@ -123,11 +123,18 @@ export default class Home extends Component {
         >
         <Grid/>
         </LineChart>
+      {/*
         <Button
         onPress={() => this.props.navigation.navigate('Profile')}
         title='Profile'
         color='#7C777A' 
         />
+      */}
+        <View style={ styles.button_container }>
+        <TouchableHighlight onPress = {() => this.props.navigation.navigate('Profile')} style = { styles.button_style }>
+          <Text style = { styles.button_text }>Profile</Text>
+        </TouchableHighlight>
+        </View>
         </View>
         </View>
 
@@ -185,5 +192,20 @@ const styles = StyleSheet.create({
      borderColor:'black',
      borderWidth:2,
      flexDirection:'column',
+    },
+    button_style: {
+      width: '50%',
+      padding: 6,
+      backgroundColor: '#495875',
+    },
+    button_text: {
+      fontSize: 14,
+      color: 'white',
+      alignSelf: 'stretch',
+      textAlign: 'center',
+    },
+    button_container: {
+      justifyContent: 'center',
+      alignItems: 'center'
     }
 })
