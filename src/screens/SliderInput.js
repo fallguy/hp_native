@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Slider, Button, Alert, ActivityIndicator } from "react-native";
 import { API, Auth } from 'aws-amplify';
-import SliderWidget from '../SliderWidget';
+import SliderWidget from './components/SliderWidget';
 import { createStackNavigator } from 'react-navigation';
 
 

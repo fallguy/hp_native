@@ -87,7 +87,7 @@ export default class SliderWidget extends Component {
     const answered_at = currentUnixTime;
     const sliderVal = this.state.metric;
     const app_version = this.state.app_version;
-    
+    console.log(this.state.user_id)
     const newSubmission = { 
       "id": id.toString(),
       "user_id": this.state.user_id,

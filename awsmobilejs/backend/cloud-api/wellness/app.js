@@ -66,6 +66,32 @@ app.get('/wellness', function(req, res) {
     }
   });
 });
+
+app.get('/wellness/user', function (req, res) {
+  var userid = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  console.log(userid)
+  let queryParams = {
+    TableName: tableName,
+    IndexName: 'user_id',
+    KeyConditions: {
+      user_id: {
+        ComparisonOperator: 'EQ',
+        AttributeValueList: [userid],
+      },
+    },
+  }
+  
+  dynamodb.query(queryParams, (err, data) => {
+    if (err) {
+      res.json({error: 'Could not load items: ' + err});
+    } else {
+      console.log(data);
+      res.json(data.Items);
+    }
+  });
+
+});
+
 /********************************
  * HTTP Get method for list objects *
  ********************************/
