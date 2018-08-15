@@ -15,12 +15,7 @@ export default class Map extends Component {
     
         }
       }
-
-      resetState() {
-
-      }
-     
-    
+      
       async componentDidMount() {
         this._sub = this.props.navigation.addListener(
           'didFocus',
