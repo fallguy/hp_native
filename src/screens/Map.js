@@ -99,11 +99,12 @@ export default class Map extends Component {
         provider='google'
       >
        {wellessItems}
-       <ActivityIndicator size="large" color="#0000ff" animating={this.state.loading} />
+      
        {/* <MapView.Heatmap points={this.state.wellness}
       opacity={1} radius={20} maxIntensity={100} gradientSmoothing={10} heatmapMode={"POINTS_DENSITY"}/>    
        */}
         </MapView>
+        <ActivityIndicator style={styles.loading} size="large" color="#0000ff" animating={this.state.loading} />
       </View>
       </View>
     );
@@ -130,4 +131,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center'
   },
+  loading: {
+    position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'
+  }
 });
