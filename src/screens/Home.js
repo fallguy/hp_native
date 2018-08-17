@@ -17,19 +17,34 @@ export default class Home extends Component {
     };
   }
 
+  async postUser (){
+    let userObj = {}
+    let session = Auth.currentCredentials().then((data) => {
+      userObj.identityid = data.data.IdentityId;
+      Auth.currentSession().then(async (user) =>{
+        userObj.email = user.idToken.payload.email;
+        userObj.phone = user.idToken.payload.phone_number;
+        await API.post('usersCRUD', '/users', { body: userObj });
+      })
+    });
+    
+  }
+
   signOut() {
     Auth.signOut()
     .then(data => console.log(data))
     .catch(err => console.log(err));
   }
+  
       
   async componentDidMount() {
-    let user = ""
+    let user = "";
 
     Auth.currentSession().then((res) => {
       user = res.idToken.payload['cognito:username']
       this.setState({user: user})
     });
+    this.postUser();
 
     let notification_arrayfromserv = await API.get('notifyCRUD', `/notify/user`);
    

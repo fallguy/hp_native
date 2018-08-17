@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+   "name": "Alpha State",
+   "icon": "./src/icon.png",
+   "version": "1.0.0",
+   "slug": "alpha-state",
+   "sdkVersion": "27.0.0",
+   "ios": {
+     "bundleIdentifier": "com.arrdude.alphastate"
+   },
+   "android": {
+     "package": "com.arrdude.alphastate"
+   }
   }
 }

@@ -2,7 +2,6 @@ module.exports =
   {
     "resource": "/notificationEngine",
     "path": "/notificationEngine",
-    "httpMethod": "GET",
     "headers": {
       "Accept": "application/json, text/plain, */*",
       "CloudFront-Forwarded-Proto": "https",

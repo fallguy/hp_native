@@ -13,13 +13,29 @@ export default class ClassSlider extends Component {
       metric: 0,
       notification: {},
       survey: [],
-      loading: true
+      loading: true,
+      ind: 1
     }
   }
 
+  forceRemount = () => {
+    let ind = this.state.ind++;
+    console.log(ind)
+    this.setState({index: ind});
+    console.log(this.state)
+  }
+
   async componentDidMount() {
-    let survey = await API.get('surveysCRUD', `/surveys/random`);
-    this.setState({ survey, loading: false });
+    this._sub = this.props.navigation.addListener(
+      'didFocus',
+      async () => {
+        console.log('jo')
+        this.setState({loading: true, survey: [] });
+        this.forceRemount();
+        let survey = await API.get('surveysCRUD', `/surveys/random`);
+        this.setState({ survey, loading: false });
+        
+      })
   }
 
   async handleAddSubmission(newSubmission) {
@@ -31,6 +47,7 @@ export default class ClassSlider extends Component {
     const { navigation } = this.props;
     const notification = navigation.getParam('notification');
     return (
+
       <View style={ styles.container }>
         <ActivityIndicator size="large" color="#0000ff" animating={ this.state.loading } />
         { this.state.user_sub }
@@ -40,6 +57,7 @@ export default class ClassSlider extends Component {
             notification={notification} 
             submitSlider={this.handleAddSubmission.bind(this)}
           />
+
         }
         {!notification && this.state.survey.length > 0 &&
           <SliderWidget 
