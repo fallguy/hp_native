@@ -13,12 +13,17 @@ var bodyParser = require('body-parser')
 var AWS = require('aws-sdk')
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 var JulianDate = require('julian-date')
+let j = new JulianDate(); // Get the julian date
+let jd = j.julian(); // Get the julian days. Example: 5543.5
+let jdfloor = Math.floor(jd);
+
 //var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 
 const cognitoIdentityService = new AWS.CognitoIdentityServiceProvider({region: process.env.REGION});
 const params = {
   "UserPoolId": "us-west-2_CV1jywsqB"
 };
+
 
 AWS.config.update({ region: process.env.REGION });
 const dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -73,22 +78,6 @@ function getSurveys(callback) {
   });
 }
 
-function getNotify(callback) {
-  let queryParams = {
-    TableName: notifyTableName
-  }
-
-  let results = {};
-
-  dynamodb.scan(queryParams, (err, data) => {
-    if (err) {
-      callback({error: 'Could not load notify items: ' + err});
-    } else {
-      callback(results = data.Items);
-    }
-  });
-}
-
 //Get list of users from Users Endpoint
 function getUsers(callback) {
   let queryParams = {
@@ -106,10 +95,124 @@ function getUsers(callback) {
   });
 }
 
-// Writes the new notification objects to Notify Endpoint 
-//function writesToNotifyEndPoint(newNotification) {
-//API.post('notifyCRUD', '/notify', { body: newNotification });
-//}
+// the hashifier of a string
+String.prototype.hashCode = function() {
+  var hash = 0, i, chr;
+  if (this.length === 0) return hash;
+  for (i = 0; i < this.length; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
+
+function notification_Engine(){
+  let userResults;
+  return new Promise(resolve => {
+    
+    getUsers(function(ru){
+      console.log('users', ru);
+      userResults = ru;
+  
+      let surveyResults; 
+      getSurveys(function(rs){
+        console.log('surveys',rs);
+        surveyResults = rs;
+  
+        let scheduled_at = jd;
+        //let scheduled_at = 1530565200;
+        let user_id = ru.map(a => ({user_id: a.identityid})); 
+        console.log('user_id: ', user_id);
+        let widget = surveyResults.map(a => a.widget);
+        console.log('widget: ', widget);
+        let survey_id = surveyResults.map(a => a.id);
+        console.log('survey_id ', survey_id);
+        let category = surveyResults.map(a => a.category);
+        console.log('category ', category);
+        let question = surveyResults.map(a => a.question);
+        console.log('question ', question);
+  
+        let modular = 3; // total number of surveys
+  
+        let arrayOfNotificationObjects = [];
+        // Iterate through all users and add new field groupIndex to each user
+        // based on the mod of their hash value 
+        for (let i = 0; i < user_id.length; i++) {
+          let preHashUserId = user_id[i].user_id;
+          let hashUserId = preHashUserId.hashCode();
+          console.log('hashUserId:', hashUserId)
+          if (hashUserId % modular == 0) {
+            user_id[i].groupIndex = 0;
+          } else { 
+            user_id[i].groupIndex = 1;
+          }
+        }
+        // Modular the Julian date and create newNotification
+        for (let i = 0; i < user_id.length; i++) {
+          let julianDateHashConditional = ((i + (jdfloor % modular)) % modular) 
+          if ( julianDateHashConditional == 0 && user_id[i].groupIndex == 0) {
+            console.log(julianDateHashConditional, user_id[i].groupIndex);
+            createNewNotification(user_id[i].user_id, surveyResults[0]);
+          } else {
+            createNewNotification(user_id[i].user_id, surveyResults[1]);
+            console.log(julianDateHashConditional, user_id[i].groupIndex);
+          }
+        }
+        for (let i = 0; i < user_id.length; i++) {
+          let julianDateHashConditional = ((i + (jdfloor % modular)) % modular) 
+          createNewNotification(user_id[i].user_id, surveyResults[0]);
+        } 
+        // Testing for loop to mod julian date and create newNotification
+  
+  
+        function createNewNotification(userIdOfExpectedGroupIndex, surveyObject){
+          let newNotification = 
+            { 
+              'scheduled_at': scheduled_at,
+              'survey':
+              { 
+                'widget': surveyObject.widget,
+                'survey_id': surveyObject.id,
+                'category': surveyObject.category,
+                'question': surveyObject.question
+              },
+              'user_id': userIdOfExpectedGroupIndex.toString(),
+              'id': uuidv4().toString() 
+            }
+          arrayOfNotificationObjects.push(newNotification);
+        };
+  
+        console.log("Array of Notification Objects", arrayOfNotificationObjects);
+        let requestItems = arrayOfNotificationObjects.map(n => {
+          return {
+            PutRequest: {
+              Item: n
+            }
+          }
+        });
+   
+        let params = {
+          RequestItems: {}
+        }
+   
+        params.RequestItems[notifyTableName] = requestItems;
+        dynamodb.batchWrite(params, (err, data) => {
+        console.log(err,data);
+        if(err) {
+          resolve('resolved');
+          return {error: err};
+        } else {
+          resolve('resolved');
+          return {success: 'post call succeed!'};
+        }
+        });
+  
+      }); // end surveyResults 
+    }); // end of userResults
+  });
+  
+}
 
 ///////////////////////////////////////////////////////////////////
 
@@ -119,144 +222,24 @@ function getUsers(callback) {
 
 app.get('/notificationEngine', function(req, res) {
 
-  // let notifyResults = getNotify(function(rn){
-  //   console.log('suh notify',rn)
-  // });
-
-  let userResults;
-  getUsers(function(ru){
-    console.log('suh user', ru);
-    userResults = ru;
-
-    let surveyResults; 
-    getSurveys(function(rs){
-      console.log('suh survey',rs);
-      surveyResults = rs;
-
-      // the hashifier of a string
-      String.prototype.hashCode = function() {
-        var hash = 0, i, chr;
-        if (this.length === 0) return hash;
-        for (i = 0; i < this.length; i++) {
-          chr   = this.charCodeAt(i);
-          hash  = ((hash << 5) - hash) + chr;
-          hash |= 0; // Convert to 32bit integer
-        }
-        return hash;
-      };
-
-      let j = new JulianDate(); // Get the julian date
-      let jd = j.julian(); // Get the julian days. Example: 5543.5
-      let modular = 2; // total number of types of surveys
-
-      let scheduled_at = jd;
-      //let scheduled_at = 1530565200;
-      let user_id = ru.map(a => a.identityid); 
-      console.log('user_id: ', user_id);
-      let widget = surveyResults.map(a => a.widget);
-      console.log('widget: ', widget);
-      let survey_id = surveyResults.map(a => a.id);
-      console.log('survey_id ', survey_id);
-      let category = surveyResults.map(a => a.category);
-      console.log('category ', category);
-      let question = surveyResults.map(a => a.question);
-      console.log('question ', question);
-
-      let newNotification = 
-        { 
-          "scheduled_at": "",
-          "survey":
-          { 
-            "widget": "" ,
-            "survey_id": "",
-            "category": "",
-            "question": ""
-          },
-          "user_id": "",
-          "id": ""
-        };
-
-      let arrayOfNotificationObjects = [];
-
-      // Group users
-      //for (let i = 0; i < user_id.length; i++) {
-      //  let preHashUserId = user_id[i].id
-      //  let hashUserId = userId.hashCode();
-      //  if (hashUserId % modular == 0) {
-      //     group0.push(hashUserId)
-      //  } else group1.push(hashUserId)
-      //}
-
-      // Iterate through all users and add new field groupIndex to each user
-      // based on the mod of their hash value 
-      for (let i = 0; i < user_id.length; i++) {
-        let preHashUserId = user_id[i];
-        let hashUserId = preHashUserId.hashCode();
-        console.log('hashUserId:', hashUserId)
-        if (hashUserId % modular == 0) {
-          user_id[i].groupIndex = 0;
-        } else 
-          user_id[i].groupIndex = 1;
-      }
-
-      // Modular the Julian date and create newNotification
-      for (let i = 0; i < user_id.length; i++) {
-        let julianDateHashConditional = (i + (jd % modular) % modular) 
-        if ( julianDateHashConditional == 0 && user_id[i].groupIndex == 0) {
-          createNewNotification(user_id[i], surveyResults[0]);
-        } else createNewNotification(user_id[i], surveyResults[1]);
-      }
-
-      function createNewNotification(userIdOfExpectedGroupIndex, surveyObject){
-        newNotification = 
-          { 
-            "scheduled_at": scheduled_at.toString(),
-            "survey":
-            { 
-              "widget": surveyObject.widget,
-              "survey_id": surveyObject.id,
-              "category": surveyObject.category,
-              "question": surveyObject.question
-            },
-            "user_id": userIdOfExpectedGroupIndex.toString(),
-            "id": uuidv4().toString() 
-          }
-        arrayOfNotificationObjects.push(newNotification);
-      };
-
-      console.log(arrayOfNotificationObjects);
-
-      let putItemParams = {
-        TableName: notifyTableName,
-        Item: arrayOfNotificationObjects
-      }
-      
-
-      dynamodb.put(putItemParams, (err, data) => {
-        if(err) {
-          res.json({error: err});
-        } else {
-          res.json({success: 'post call succeed!'})
-        }
-      });
-    });
-
-    // let userId = users.id;
-    //
-    // let userLength = users.length;
-    // for (var i = 0; i < usersLength; i++) {
-    //  console.log(users);
-    // }
-    //
-    //const newNotification = {"id": notificationId.toString(), "surveyId": surveyId.toString(), "scheduled_at": parseInt(scheduled_at)}; 
-    // writesToNotifyEndPoint(newNotification);
-    //  
-    // Return the API Gateway event and query string parameters for example
-    //res.json(req.apiGateway.event);
-    // Return the API Gateway event and query string parameters for example
-    //res.json({success: 'got the surveys', url: req.url, body: req.body});
-  });
-});
+ 
+  
+  // async function makeTheResponse(){
+  //   let response = await notification_Engine();
+  //   return response;
+  // }
+  // makeTheResponse().then(function(){
+    
+  // })
+  setTimeout(function(){
+    res.json("you done here----------------");
+  },2000)
+  
+ 
+  // notification_Engine();
+  // res.json("---------------You are done testing here---------------")
+  // res.json(response);
+}); // end of app.get
 app.get('/notificationEngine/users', function(req, res) {
 
   let queryParams = {
@@ -320,6 +303,13 @@ app.delete('/notificationEngine/*', function(req, res) {
 
 app.listen(3000, function() {
   console.log("App started")
+  async function makeTheResponse(){
+    let response = await notification_Engine();
+    return response;
+  }
+  makeTheResponse().then(function(){
+    console.log('finished')
+  })
 });
 
 // Export the app object. When executing the application local this does nothing. However,
