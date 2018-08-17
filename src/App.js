@@ -10,11 +10,9 @@ import { createRootNavigator } from './router'
 
 Amplify.configure(aws_exports);
 
-
 const RootStack = createRootNavigator();
 
 class App extends React.Component {
-  
 
   render() {
     var state = this.state;
@@ -23,14 +21,6 @@ class App extends React.Component {
     );
   }
 }
-// export default withAuthenticator(App, false, [
-//   <SignIn/>,
-//   <ConfirmSignIn/>,
-//   <VerifyContact/>,
-//   <SignUp/>,
-//   <ConfirmSignUp/>,
-//   <ForgotPassword/>
-// ]);
 
 export default withAuthenticator(App);
 const styles = StyleSheet.create({

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Dimensions, Platform } from 'react-native';
 import { createStackNavigator, TabNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
-
 import Home from './screens/Home';
 import Profile from './screens/Profile';
 import Survey from './screens/Survey';
@@ -59,7 +58,7 @@ export const createRootNavigator = () => {
       Tabs: {
         screen: Tabs,
         navigationOptions: {
-          title: 'Happy Place :)',
+          title: 'Alpha State',
           gesturesEnabled: false,
           headerStyle: {
             backgroundColor: '#D1F1D9',
@@ -80,19 +79,14 @@ export const createRootNavigator = () => {
         path: '/thanks',
         screen: QuotePage,
         navigationOptions: {
+          title: 'Alpha State',
           headerLeft: null,
-        }
-      },
-      Profile: { 
-        screen: Profile,
-        navigationOptions: {
-          title: 'Profile',
           gesturesEnabled: false,
           headerStyle: {
-            backgroundColor: 'steelblue',
+            backgroundColor: '#D1F1D9',
           },
-        }
-      },
+        },
+      }
     },
   );
 };

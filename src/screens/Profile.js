@@ -4,22 +4,22 @@ import { API, Auth } from 'aws-amplify';
 import aws_exports from '../aws-exports';
 export default class Profile extends Component {
 
-
-    signOut() {
-        Auth.signOut()
-        .then(data => console.log(data))
-        .catch(err => console.log(err));
-      }
+  signOut() {
+    Auth.signOut()
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+  }
 
   render() {
     return (
-      <View style={styles.container}>
-              <Button
-  onPress={this.signOut}
-  title="Sign Out"
-  color="#7C777A"
-  accessibilityLabel="Learn more about this purple button"></Button>
-        <Text style={styles.title}>
+      <View style={ styles.container }>
+        <Button
+          onPress={ this.signOut }
+          title="Sign Out"
+          color="#7C777A"
+          accessibilityLabel="Learn more about this purple button"
+        />
+        <Text style={ styles.title }>
           Profile
         </Text>
       </View>
@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+
   title: {
     fontSize: 20,
     textAlign: 'center',

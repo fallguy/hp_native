@@ -11,7 +11,12 @@ const SimpleStack = createStackNavigator({
       path: '/thanks',
       screen: QuotePage,
       navigationOptions: {
+        title: 'Profile',
+        gesturesEnabled: false,
         headerLeft: null,
+        headerStyle: {
+          backgroundColor: '#D1F1D9',
+        },
       }
     },
     
