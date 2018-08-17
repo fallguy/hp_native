@@ -21,7 +21,6 @@ export default class QuotePage extends Component {
     };
   }
 
-
   componentWillMount() {
     var newRand = Math.floor(Math.random() * quotes.length);
     var rand = quotes[newRand];
@@ -44,7 +43,6 @@ export default class QuotePage extends Component {
     );
   };
 
-
   render() {
     return (
       <View style={{flex: 1}}>
@@ -56,7 +54,6 @@ export default class QuotePage extends Component {
         }}>
           <Text style={{ fontSize: 40 }}>Thank you!</Text>
         </View>
-
         <View style={{
           flex: 3, 
           alignItems: 'center',
@@ -70,20 +67,12 @@ export default class QuotePage extends Component {
             -- {this.state.randAuth}
           </Text>
         </View>
-
         <View style={{flex: 1,
           alignItems: 'center',
           flexDirection: 'row',
           justifyContent: 'space-around',
           backgroundColor: '#F9F9F9'
         }}>
-      {/*
-        <Button
-          onPress={() => this.props.navigation.navigate('Home')}
-          title='OK'
-          color='#7C777A' 
-        />
-      */}
         <TouchableHighlight 
           onPress={() => this.props.navigation.navigate('Home')}
           style={{ 
