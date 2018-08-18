@@ -46,46 +46,40 @@ export default class Map extends Component {
         console.log('remove')
         this._sub.remove();
        
-
       }
-    });
-
-    function pick(obj, keys) {
-      return Object.assign({}, ...keys.map(k => k in obj ? {[k]: obj[k]} : {}))
-    }
-
-    this.setState({ wellness, loading: false });
-  }
-
   render() {
     let wellessItems;
-
     if (this.state.wellness) {
-      wellessItems = this.state.wellness.map((wellness,index) => {
-        if(wellness) {
-          let bgcolor = "red";
+      //console.warn(this.state.wellness)
+    wellessItems = this.state.wellness.map((wellness,index) => {
+      if(wellness){
+        let bgcolor = "red";
           switch(true) {
             case (wellness.wellness_value < 4):
-            bgcolor = "red"
-            break;
+           
+                bgcolor = "red"
+                break;
             case (wellness.wellness_value < 8):
-            bgcolor = "blue"
-            break;
+        
+                bgcolor = "blue"
+                break;
             case (wellness.wellness_value < 11):
-            bgcolor = "green"
-            break;
+            
+                bgcolor = "green"
+                break;
             default: 
-            break;
-          }
-          return (
-            <MapView.Marker coordinate={wellness} key={index} pinColor={bgcolor} />
-          )
+     
+                break;
         }
-      });
-    }
-
+      
+        return (
+          <MapView.Marker coordinate={wellness} key={index} pinColor={bgcolor}   />
+        )
+      }
+      
+    });
+  }
     return (
-
         <View style={{backgroundColor: 'white', height: '100%'}}>
        
         <View>
@@ -112,31 +106,27 @@ export default class Map extends Component {
         </MapView>
         <ActivityIndicator style={styles.loading} size="large" color="#0000ff" animating={this.state.loading} />
       </View>
-
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+      },
   title: {
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
   },
-
   header: {
     fontSize: 40,
     textAlign: 'center',
     marginTop: 20
   },
-
   subheader: {
     fontSize: 20,
     textAlign: 'center'
