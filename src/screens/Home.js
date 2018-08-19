@@ -4,6 +4,10 @@ import { API, Auth } from 'aws-amplify';
 import aws_exports from '../aws-exports';
 import { Icon } from 'react-native-elements';
 import { LineChart, Grid } from 'react-native-svg-charts';
+import {SliderInput} from './SliderInput';
+import { NavigationActions } from 'react-navigation';
+
+
 
 export default class Home extends Component {
 
@@ -35,11 +39,12 @@ export default class Home extends Component {
     .then(data => console.log(data))
     .catch(err => console.log(err));
   }
-  
+ 
+ 
       
   async componentDidMount() {
     let user = "";
-
+   
     Auth.currentSession().then((res) => {
       user = res.idToken.payload['cognito:username']
       this.setState({user: user})
@@ -66,9 +71,25 @@ export default class Home extends Component {
   }
 
   async issueSurvey() {
-    this.props.navigation.navigate('SliderInput', {
-      notification: this.state.notificationObject
+    console.log(this.state.notificationObject);
+    //console.log(this.props.navigation);
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'Tabs',
+
+
+      // navigate can have a nested navigate action that will be run inside the child router
+      action: NavigationActions.navigate({
+        routeName: 'Survey',
+        params: {
+          notification: this.state.notificationObject
+        }
+      }),
     });
+
+    this.props.navigation.dispatch(navigateAction);
+    // this.props.navigation.navigate('SliderInput', {
+    //   notification: this.state.notificationObject
+    // });
   }
 
   surveryAlert = () =>  {

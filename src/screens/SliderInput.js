@@ -20,16 +20,14 @@ export default class ClassSlider extends Component {
 
   forceRemount = () => {
     let ind = this.state.ind++;
-    console.log(ind)
     this.setState({index: ind});
-    console.log(this.state)
   }
 
   async componentDidMount() {
     this._sub = this.props.navigation.addListener(
       'didFocus',
       async () => {
-        console.log('jo')
+        
         this.setState({loading: true, survey: [] });
         this.forceRemount();
         let survey = await API.get('surveysCRUD', `/surveys/random`);
@@ -45,7 +43,9 @@ export default class ClassSlider extends Component {
 
   render() {
     const { navigation } = this.props;
+    
     const notification = navigation.getParam('notification');
+    
     return (
 
       <View style={ styles.container }>
