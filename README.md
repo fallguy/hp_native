@@ -5,7 +5,7 @@ awsmobile init
 awsmobile push
 ```
 (if aws-export.js is in root directory)
-```
+```i
 mv aws-export.js src/
 ```
 Finally run below command to start app
@@ -13,6 +13,11 @@ Finally run below command to start app
 yarn start
 ```
 
+To Debug
+
+```
+react-devtools
+```
 !!!End of hp_native specific instructions!!!
 
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
