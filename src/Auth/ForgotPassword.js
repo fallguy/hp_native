@@ -141,6 +141,9 @@ export default class ForgotPassword extends AuthPiece {
                             <Text style={styles.travelText}>FORGOT PASSWORD</Text>
 
                         </View>
+                        <View>
+                            <Text style={styles.welcomeText}>Hey! If you forgot your password, please enter your username and we'll send you a confirmation code!</Text>
+                        </View>
                     </View>
                     <View style={styles.loginInput}>
                         {!this.state.delivery && this.forgotBody()}
@@ -216,7 +219,12 @@ const styles = StyleSheet.create({
     },
     signIn: {
         backgroundColor: '#333',
-        marginTop: 30
+        marginTop: 30,
+        borderRadius:25
+    },
+    welcomeText: {
+        textAlign: "center",
+        fontSize: 14
     },
     footerView: {
         marginTop: 20

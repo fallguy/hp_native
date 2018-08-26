@@ -102,6 +102,10 @@ export default class SignUp extends AuthPiece {
                             <Text style={styles.travelText}>SIGN UP</Text>
 
                         </View>
+                        <View>
+                            <Text style={styles.welcomeText}>Thanks for joining.</Text>
+                            <Text style={styles.welcomeText}>You are one step away to keeping track of your happiness!</Text>
+                        </View>
                        
                     </View>
                     <View style={styles.loginInput}>
@@ -213,10 +217,15 @@ const styles = StyleSheet.create({
     },
     signIn: {
         backgroundColor: '#333',
-        marginTop: 30
+        marginTop: 30,
+        borderRadius:25
     },
     footerView: {
         marginTop: 20
+    },
+    welcomeText: {
+        textAlign: "center",
+        fontSize: 14
     },
     inputText: {
         marginLeft: 20,

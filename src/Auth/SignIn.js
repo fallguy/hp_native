@@ -147,6 +147,9 @@ export default class SignIn extends AuthPiece {
             <View style={{ marginTop: -10 }}>
               <Text style={styles.travelText}>STATE</Text>
             </View>
+            <View>
+              <Text style={styles.welcomeText}>Welcome! How do you feel right now? Please login.</Text>
+            </View>
           </View>
           <View style={styles.loginInput}>
             <FormInput
@@ -254,7 +257,12 @@ const styles = StyleSheet.create({
   },
   signIn: {
     backgroundColor: "#333",
-    marginTop: 30
+    marginTop: 30,
+    borderRadius:25
+  },
+  welcomeText: {
+      textAlign: "center",
+      fontSize: 14
   },
   footerView: {
     marginTop: 20

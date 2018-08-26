@@ -185,7 +185,8 @@ const styles = StyleSheet.create({
     },
     signIn: {
         backgroundColor: '#333',
-        marginTop: 30
+        marginTop: 30,
+        borderRadius:25
     },
     footerView: {
         marginTop: 20
