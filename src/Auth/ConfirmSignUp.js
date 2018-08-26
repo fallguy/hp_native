@@ -12,7 +12,7 @@
  */
 
 import React from 'react';
-import { View, Text, TextInput, TouchableHighlight,StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableHighlight,StyleSheet, ImageBackground, Dimensions } from 'react-native';
 import { Auth, I18n, Logger } from 'aws-amplify';
 import { FormLabel, FormInput, FormValidationMessage, Input, Button } from 'react-native-elements'
 import AmplifyTheme from 'aws-amplify-react-native';
@@ -20,14 +20,16 @@ import { Username, ConfirmationCode, LinkCell, Header, ErrorRow } from 'aws-ampl
 import AuthPiece from './AuthPiece';
 
 const logger = new Logger('SignIn');
-
+const BG_IMAGE = require("../img/sun-bg.jpg");
+const SCREEN_WIDTH = Dimensions.get("window").width;
+const SCREEN_HEIGHT = Dimensions.get("window").height;
 const Footer = props => {
     const { theme, onStateChange, error } = props;
   
     return (
         <View style={styles.footerView}>
             
-            <Text style={{fontSize:14,color: '#007bff', textAlign: 'center'}} onPress={() => onStateChange('signIn')}>Back to Sign In</Text>
+            <Text style={styles.link} onPress={() => onStateChange('signIn')}>Back to Sign In</Text>
             <Text style={{ marginTop: 15, color: 'red' }}>
                             {error}
                         </Text>
@@ -83,7 +85,7 @@ export default class ConfirmSignUp extends AuthPiece{
 
     showComponent(theme) {
         return (
-            <View style={styles.bgImage}>
+            <ImageBackground source={BG_IMAGE} style={styles.bgImage}>
                 <View style={styles.loginView}>
                     <View style={styles.loginTitle}>
                         <View style={{ flexDirection: 'row' }}>
@@ -93,7 +95,12 @@ export default class ConfirmSignUp extends AuthPiece{
                     </View>
                     <View style={styles.loginInput}>
 
-                        <FormInput placeholder="Code" autoCapitalize="none" autoCorrect={false}  inputStyle={{width:200}} onChangeText={(text) => this.setState({ code: text })} />
+                        <FormInput placeholder="Code" 
+                        autoCapitalize="none" 
+                        autoCorrect={false} 
+                        placeholderTextColor="#fafafa"
+                        inputStyle={styles.inputStyle} 
+                        onChangeText={(text) => this.setState({ code: text })} />
                     
                       
                         <Button title='CONFIRM' buttonStyle={styles.signIn} onPress={this.confirm} disabled={!this.state.code} />
@@ -104,7 +111,7 @@ export default class ConfirmSignUp extends AuthPiece{
                 </View>
                 
                 {/* <ErrorRow theme={theme}>{this.state.error}</ErrorRow> */}
-            </View>
+            </ImageBackground>
 
         )
         // return React.createElement(
@@ -155,9 +162,11 @@ const styles = StyleSheet.create({
         flex: 1,
         top: 0,
         left: 0,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
+        justifyContent: "center",
+        alignItems: "center",
+        width: SCREEN_WIDTH,
+        height: SCREEN_HEIGHT
+      },
     loginView: {
         marginTop: 0,
         backgroundColor: 'transparent',
@@ -170,12 +179,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     travelText: {
-        color: 'black',
+        color: "#FAFAFA",
         fontSize: 30,
         textAlign:'center'
     },
     plusText: {
-        color: 'black',
+        color: "#FAFAFA",
         fontSize: 30
     },
     loginInput: {
@@ -184,11 +193,16 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     signIn: {
-        backgroundColor: '#333',
+        backgroundColor: '#FFF',
         marginTop: 30,
         borderRadius:25
     },
     footerView: {
         marginTop: 20
-    }
+    },
+    inputStyle: {
+        color: "#FAFAFA",
+        width: 200
+      },
+    link: { fontSize: 14, color: "#ADD8E6", textAlign: "center" }
 });

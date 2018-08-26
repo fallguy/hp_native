@@ -18,7 +18,9 @@ import {
   TextInput,
   TouchableHighlight,
   StyleSheet,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  ImageBackground,
+  Dimensions
 } from "react-native";
 import { Auth, I18n, Logger } from "aws-amplify";
 import AuthPiece from "./AuthPiece";
@@ -39,6 +41,9 @@ import {
 } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 const logger = new Logger("SignIn");
+const BG_IMAGE = require("../img/sun-bg.jpg");
+const SCREEN_WIDTH = Dimensions.get("window").width;
+const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 const Footer = props => {
   let { theme, onStateChange, error } = props;
@@ -48,17 +53,14 @@ const Footer = props => {
   }
   return (
     <View style={styles.footerView}>
-      <Text style={{ textAlign: "center" }}>New here?</Text>
-      <Text
-        style={{ fontSize: 14, color: "#007bff", textAlign: "center" }}
-        onPress={() => onStateChange("signUp")}
-      >
+      <Text style={{ textAlign: "center", color: "#FAFAFA" }}>New here?</Text>
+      <Text style={styles.link} onPress={() => onStateChange("signUp")}>
         Create an Account
       </Text>
       <Text style={{ marginTop: 15, color: "red" }}>{error}</Text>
       {forgetPw ? (
         <Text
-          style={{ fontSize: 14, color: "#007bff", textAlign: "center" }}
+          style={styles.link}
           onPress={() => {
             onStateChange("forgotPassword");
             error = false;
@@ -138,51 +140,58 @@ export default class SignIn extends AuthPiece {
 
   showComponent(theme) {
     return (
-      <KeyboardAvoidingView behavior="padding" enabled style={styles.bgImage}>
-        <View style={styles.loginView}>
-          <View style={styles.loginTitle}>
-            <View style={{ flexDirection: "row" }}>
-              <Text style={styles.travelText}>ALPHA</Text>
+      <KeyboardAvoidingView behavior="padding" enabled>
+        <ImageBackground source={BG_IMAGE} style={styles.bgImage}>
+          <View style={styles.loginView}>
+            <View style={styles.loginTitle}>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={styles.travelText}>ALPHA</Text>
+              </View>
+              <View style={{ marginTop: -10 }}>
+                <Text style={styles.travelText}>STATE</Text>
+              </View>
+              <View>
+                <Text style={styles.welcomeText}>
+                  Welcome! How do you feel right now? Please login.
+                </Text>
+              </View>
             </View>
-            <View style={{ marginTop: -10 }}>
-              <Text style={styles.travelText}>STATE</Text>
-            </View>
-            <View>
-              <Text style={styles.welcomeText}>Welcome! How do you feel right now? Please login.</Text>
+            <View style={styles.loginInput}>
+              <FormInput
+                placeholder="Username"
+                autoCapitalize="none"
+                placeholderTextColor="#fafafa"
+                autoCorrect={false}
+                inputStyle={styles.inputStyle}
+                onChangeText={text => this.setState({ username: text })}
+              />
+              <FormInput
+                placeholder="Password"
+                autoCapitalize="none"
+                placeholderTextColor="#fafafa"
+                autoCorrect={false}
+                secureTextEntry={true}
+                inputStyle={styles.inputStyle}
+                onChangeText={text => this.setState({ password: text })}
+              />
+
+              <Button
+                title="SIGN IN"
+                buttonStyle={styles.signIn}
+                onPress={this.signIn}
+                disabled={!this.state.username || !this.state.password}
+                color="#222"
+              />
+              <Footer
+                onStateChange={this.changeState}
+                theme={theme}
+                error={this.state.error}
+              />
             </View>
           </View>
-          <View style={styles.loginInput}>
-            <FormInput
-              placeholder="Username"
-              autoCapitalize="none"
-              autoCorrect={false}
-              inputStyle={{ width: 200 }}
-              onChangeText={text => this.setState({ username: text })}
-            />
-            <FormInput
-              placeholder="Password"
-              autoCapitalize="none"
-              autoCorrect={false}
-              secureTextEntry={true}
-              inputStyle={{ width: 200 }}
-              onChangeText={text => this.setState({ password: text })}
-            />
 
-            <Button
-              title="SIGN IN"
-              buttonStyle={styles.signIn}
-              onPress={this.signIn}
-              disabled={!this.state.username || !this.state.password}
-            />
-            <Footer
-              onStateChange={this.changeState}
-              theme={theme}
-              error={this.state.error}
-            />
-          </View>
-        </View>
-
-        {/* <ErrorRow theme={theme}>{this.state.error}</ErrorRow> */}
+          {/* <ErrorRow theme={theme}>{this.state.error}</ErrorRow> */}
+        </ImageBackground>
       </KeyboardAvoidingView>
     );
     // return React.createElement(
@@ -229,7 +238,9 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT
   },
   loginView: {
     marginTop: 0,
@@ -243,11 +254,11 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   travelText: {
-    color: "black",
+    color: "#FAFAFA",
     fontSize: 30
   },
   plusText: {
-    color: "black",
+    color: "#FAFAFA",
     fontSize: 30
   },
   loginInput: {
@@ -256,15 +267,21 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   signIn: {
-    backgroundColor: "#333",
+    backgroundColor: "#FFF",
     marginTop: 30,
-    borderRadius:25
+    borderRadius: 25
   },
   welcomeText: {
-      textAlign: "center",
-      fontSize: 14
+    textAlign: "center",
+    fontSize: 14,
+    color: "#FAFAFA"
   },
   footerView: {
     marginTop: 20
-  }
+  },
+  inputStyle: {
+    color: "#FAFAFA",
+    width: 200
+  },
+  link: { fontSize: 14, color: "#ADD8E6", textAlign: "center" }
 });
