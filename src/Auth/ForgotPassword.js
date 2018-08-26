@@ -23,16 +23,27 @@ import AuthPiece from './AuthPiece';
 const logger = new Logger('ForgotPassword');
 
 const Footer = props => {
-    const { theme, onStateChange } = props;
-    return React.createElement(
-        View,
-        { style: theme.sectionFooter },
-        React.createElement(
-            LinkCell,
-            { theme: theme, onPress: () => onStateChange('signIn') },
-            I18n.get('Back to Sign In')
-        )
-    );
+    const { theme, onStateChange, error } = props;
+    return (
+        <View style={styles.footerView}>
+            
+            <Text style={{fontSize:14,color: '#007bff', textAlign: 'center'}} onPress={() => onStateChange('signIn')}>Back to Sign In</Text>
+            <Text style={{ marginTop: 15, color: 'red' }}>
+                            {error}
+                        </Text>
+                       
+                        
+        </View>
+    )
+    // return React.createElement(
+    //     View,
+    //     { style: theme.sectionFooter },
+    //     React.createElement(
+    //         LinkCell,
+    //         { theme: theme, onPress: () => onStateChange('signIn') },
+    //         I18n.get('Back to Sign In')
+    //     )
+    // );
 };
 
 export default class ForgotPassword extends AuthPiece {
@@ -191,7 +202,8 @@ const styles = StyleSheet.create({
     },
     travelText: {
         color: 'black',
-        fontSize: 30
+        fontSize: 30,
+        textAlign: 'center'
     },
     plusText: {
         color: 'black',

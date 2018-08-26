@@ -171,7 +171,8 @@ const styles = StyleSheet.create({
     },
     travelText: {
         color: 'black',
-        fontSize: 30
+        fontSize: 30,
+        textAlign:'center'
     },
     plusText: {
         color: 'black',
