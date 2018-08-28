@@ -100,10 +100,11 @@ export default class Map extends Component {
       >
        {wellessItems}
       
-       
+       {/* <MapView.Heatmap points={this.state.wellness}
+      opacity={1} radius={20} maxIntensity={100} gradientSmoothing={10} heatmapMode={"POINTS_DENSITY"}/>    
+       */}
         </MapView>
-        { this.state.loading ? <ActivityIndicator style={styles.loading} size="large" color="#0000ff" animating={this.state.loading} />: null }
-        
+        <ActivityIndicator style={styles.loading} size="large" color="#0000ff" animating={this.state.loading} />
       </View>
       </View>
     );
