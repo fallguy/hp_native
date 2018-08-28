@@ -9,12 +9,7 @@
      "bundleIdentifier": "com.arrdude.alphastate"
    },
    "android": {
-     "package": "com.arrdude.alphastate",
-     "config": {
-       "googleMaps": {
-         "apiKey": "AIzaSyCejJhnEkyeivHzzLp7EfhE-tueVsLq_nk"
-       }
-     }
+     "package": "com.arrdude.alphastate"
    }
   }
 }
