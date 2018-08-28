@@ -7,7 +7,12 @@ import { StyleSheet,  Text, TextInput, View, Button, Dimensions, Platform } from
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import { createRootNavigator } from './router'
-
+import SignIn from './Auth/SignIn'
+import SignUp from './Auth/SignUp'
+import VerifyContact from './Auth/Verify'
+import ConfirmSignIn from './Auth/ConfirmSignIn'
+import ConfirmSignUp from './Auth/ConfirmSignUp'
+import ForgotPassword from './Auth/ForgotPassword';
 Amplify.configure(aws_exports);
 
 const RootStack = createRootNavigator();
@@ -22,7 +27,14 @@ class App extends React.Component {
   }
 }
 
-export default withAuthenticator(App);
+export default withAuthenticator(App, false, [
+  <SignIn/>,
+  <ConfirmSignIn/>,
+  <VerifyContact/>,
+  <SignUp/>,
+  <ConfirmSignUp/>,
+  <ForgotPassword/>
+]);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
