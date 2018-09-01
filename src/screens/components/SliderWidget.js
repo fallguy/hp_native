@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { StyleSheet, TouchableHighlight, Text, View, Slider, Button, Alert } from "react-native";
+import { StyleSheet, TouchableHighlight, Text, View, Button, Alert } from "react-native";
 import { API, Auth } from 'aws-amplify';
 import uuid from 'uuid';
 import { Constants, MapView, Location, Permissions } from 'expo';
-
+import {Slider} from 'react-native-elements'
 var currentUnixTime = Math.round((new Date()).getTime() / 1000);
 
 export default class SliderWidget extends Component {
@@ -118,6 +118,7 @@ export default class SliderWidget extends Component {
           </View>
           <Slider
             style={{ width: '90%' }}
+            animateTransition={true}
             step={1}
             minimumValue={0}
             maximumValue={10}
