@@ -4,7 +4,8 @@ import {
   Button,
   Alert,
   Text,
-  View
+  View,
+  TouchableHighlight
 } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 var quotedata = require('./quotes.js');
@@ -19,7 +20,6 @@ export default class QuotePage extends Component {
       randAuth: []
     };
   }
-
 
   componentWillMount() {
     var newRand = Math.floor(Math.random() * quotes.length);
@@ -43,7 +43,6 @@ export default class QuotePage extends Component {
     );
   };
 
-
   render() {
     return (
       <View style={{flex: 1}}>
@@ -55,7 +54,6 @@ export default class QuotePage extends Component {
         }}>
           <Text style={{ fontSize: 40 }}>Thank you!</Text>
         </View>
-
         <View style={{
           flex: 3, 
           alignItems: 'center',
@@ -69,18 +67,27 @@ export default class QuotePage extends Component {
             -- {this.state.randAuth}
           </Text>
         </View>
-
         <View style={{flex: 1,
           alignItems: 'center',
           flexDirection: 'row',
           justifyContent: 'space-around',
           backgroundColor: '#F9F9F9'
         }}>
-        <Button
+        <TouchableHighlight 
           onPress={() => this.props.navigation.navigate('Home')}
-          title='OK'
-          color='#7C777A' 
-        />
+          style={{ 
+            width: '50%',
+            padding: 6,
+            backgroundColor: '#495875',
+          }}
+        >
+          <Text style={{
+            fontSize: 14,
+            color: 'white',
+            alignSelf: 'stretch',
+            textAlign: 'center',
+          }}>OK</Text>
+        </TouchableHighlight>      
         </View>
       </View>
     );
