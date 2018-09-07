@@ -1,20 +1,21 @@
 {
   "expo": {
-   "name": "Alpha State",
-   "icon": "./src/icon.png",
-   "version": "1.0.0",
-   "slug": "alpha-state",
-   "sdkVersion": "27.0.0",
-   "ios": {
-     "bundleIdentifier": "com.alphastate.alphastate"
-   },
-   "android": {
-     "package": "com.alphastate.alphastate",
-     "config": {
-       "googleMaps": {
-         "apiKey": "AIzaSyCejJhnEkyeivHzzLp7EfhE-tueVsLq_nk"
-       }
-     }
-   }
+    "name": "Alpha State",
+    "icon": "./src/icon.png",
+    "version": "1.0.0",
+    "slug": "alpha-state",
+    "sdkVersion": "27.0.0",
+    "orientation": "portrait",
+    "ios": {
+      "bundleIdentifier": "com.alphastate.alphastate"
+    },
+    "android": {
+      "package": "com.alphastate.alphastate",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCejJhnEkyeivHzzLp7EfhE-tueVsLq_nk"
+        }
+      }
+    }
   }
 }
