@@ -12,13 +12,14 @@
  */
 
 import React from 'react';
-
+import {StyleSheet, Dimensions} from 'react-native'
 import { Auth, Logger } from 'aws-amplify';
 
 import AmplifyTheme from 'aws-amplify-react-native';
 import AmplifyMessageMap from './AmplifyMessageMap';
 const logger = new Logger('AuthPiece');
-
+const SCREEN_WIDTH = Dimensions.get("window").width;
+const SCREEN_HEIGHT = Dimensions.get("window").height;
 export default class AuthPiece extends React.Component {
     constructor(props) {
         super(props);
@@ -64,10 +65,78 @@ export default class AuthPiece extends React.Component {
             if (track) track();
         }
         this._isHidden = false;
-        return this.showComponent(this.props.theme || AmplifyTheme);
+        console.log(styles)
+        return this.showComponent(styles || AmplifyTheme);
     }
 
     showComponent(theme) {
         throw 'You must implement showComponent(theme) and don\'t forget to set this._validAuthStates.';
     }
 }
+const styles = StyleSheet.create({
+    container: {
+      flex: 1
+    },
+    bgImage: {
+      flex: 1,
+      top: 0,
+      left: 0,
+      justifyContent: "center",
+      alignItems: "center",
+      width: SCREEN_WIDTH,
+      height: SCREEN_HEIGHT
+    },
+    loginView: {
+      marginTop: 0,
+      backgroundColor: "transparent",
+      width: 250,
+      height: 450
+    },
+    loginTitle: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center"
+    },
+    travelText: {
+      color: "#FAFAFA",
+      fontSize: 30
+    },
+    plusText: {
+      color: "#FAFAFA",
+      fontSize: 30
+    },
+    loginInput: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center"
+    },
+    signIn: {
+      backgroundColor: "#FFF",
+      marginTop: 30,
+      borderRadius: 25
+    },
+    welcomeText: {
+      textAlign: "center",
+      fontSize: 14,
+      color: "#FAFAFA"
+    },
+    footerView: {
+      marginTop: 20
+    },
+    inputText: {
+        marginLeft: 20,
+        marginRight: 20,
+        borderBottomColor: "#bdc6cf",
+        borderBottomWidth: 1,
+        width: 200,
+        fontSize: 17.78,
+        minHeight: 36,
+        color: "#FAFAFA"
+      },
+    inputStyle: {
+      color: "#FAFAFA",
+      width: 200
+    },
+    link: { fontSize: 14, color: "#ADD8E6", textAlign: "center" }
+  });
+  

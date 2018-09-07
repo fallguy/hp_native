@@ -83,7 +83,13 @@ export default class ForgotPassword extends AuthPiece {
         return (
             <View>
                 <FormInput placeholder="Username" placeholderTextColor="#fafafa" 
-                autoCapitalize="none" autoCorrect={false}  inputStyle={styles.inputStyle} onChangeText={(text) => this.setState({ username: text })} />
+                autoCapitalize="none" 
+                autoCorrect={false}  
+                inputStyle={styles.inputStyle} 
+                onChangeText={(text) => this.setState({ username: text })} 
+                underlineColorAndroid="#bdc6cf"
+                
+                />
                        
                       
                         <Button title='SEND CODE' color="#222" buttonStyle={styles.signIn} onPress={this.send} disabled={!this.state.username} />

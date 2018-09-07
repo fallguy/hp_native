@@ -54,14 +54,14 @@ const Footer = props => {
     forgetPw = true;
   }
   return (
-    <View style={styles.footerView}>
-      <Text style={styles.link} onPress={() => onStateChange("signIn")}>
+    <View style={theme.footerView}>
+      <Text style={theme.link} onPress={() => onStateChange("signIn")}>
         Login
       </Text>
       <Text style={{ marginTop: 15, color: "red" }}>{error}</Text>
       {forgetPw ? (
         <Text
-          style={styles.link}
+          style={theme.link}
           onPress={() => onStateChange("forgotPassword")}
         >
           Forgot Password?
@@ -114,38 +114,39 @@ export default class SignUp extends AuthPiece {
   }
 
   changePhone(amount) {
-    console.log(amount);
+   
     if (amount != undefined) {
       let phone_number = "+1" + this.amountRef.getRawValue();
       this.setState({ phone_number, raw_phone: amount });
-      console.log(this.state.phone_number);
+      
     }
   }
 
   showComponent(theme) {
     return (
       <KeyboardAvoidingView behavior="padding" enabled>
-        <ImageBackground source={BG_IMAGE} style={styles.bgImage}>
-          <View style={styles.loginView}>
-            <View style={styles.loginTitle}>
+        <ImageBackground source={BG_IMAGE} style={theme.bgImage}>
+          <View style={theme.loginView}>
+            <View style={theme.loginTitle}>
               <View style={{ flexDirection: "row" }}>
-                <Text style={styles.travelText}>SIGN UP</Text>
+                <Text style={theme.travelText}>SIGN UP</Text>
               </View>
               <View>
-                <Text style={styles.welcomeText}>Thanks for joining.</Text>
-                <Text style={styles.welcomeText}>
+                <Text style={theme.welcomeText}>Thanks for joining.</Text>
+                <Text style={theme.welcomeText}>
                   You are one step away to keeping track of your happiness!
                 </Text>
               </View>
             </View>
-            <View style={styles.loginInput}>
+            <View style={theme.loginInput}>
               <FormInput
                 placeholder="Username"
                 autoCapitalize="none"
                 autoCorrect={false}
                 placeholderTextColor="#fafafa"
-                inputStyle={styles.inputStyle}
+                inputStyle={theme.inputStyle}
                 onChangeText={text => this.setState({ username: text })}
+                underlineColorAndroid="#bdc6cf"
               />
               <FormInput
                 placeholder="Password"
@@ -153,16 +154,18 @@ export default class SignUp extends AuthPiece {
                 autoCorrect={false}
                 placeholderTextColor="#fafafa"
                 secureTextEntry={true}
-                inputStyle={styles.inputStyle}
+                inputStyle={theme.inputStyle}
                 onChangeText={text => this.setState({ password: text })}
+                underlineColorAndroid="#bdc6cf"
               />
               <FormInput
                 placeholder="Email"
                 placeholderTextColor="#fafafa"
                 autoCapitalize="none"
                 autoCorrect={false}
-                inputStyle={styles.inputStyle}
+                inputStyle={theme.inputStyle}
                 onChangeText={text => this.setState({ email: text })}
+                underlineColorAndroid="#bdc6cf"
               />
               {/* <FormInput placeholder="Phone" autoCapitalize="none" autoCorrect={false} inputStyle={{width:200}} onChangeText={(text) => this.setState({ phone_number: text })} /> */}
               <TextInputMask
@@ -173,7 +176,8 @@ export default class SignUp extends AuthPiece {
                 placeholderTextColor="#fafafa"
                 ref={ref => (this.amountRef = ref)}
                 type={"cel-phone"}
-                style={styles.inputText}
+                underlineColorAndroid="transparent"
+                style={theme.inputText}
                 options={{
                   dddMask: "(999) 999-9999"
                 }}
@@ -181,7 +185,7 @@ export default class SignUp extends AuthPiece {
 
               <Button
                 title="SIGN UP"
-                buttonStyle={styles.signIn}
+                buttonStyle={theme.signIn}
                 onPress={this.signUp}
                 color="#222"
                 disabled={!this.state.username || !this.state.password}
@@ -240,69 +244,3 @@ export default class SignUp extends AuthPiece {
     // );
   }
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  bgImage: {
-    flex: 1,
-    top: 0,
-    left: 0,
-    justifyContent: "center",
-    alignItems: "center",
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT
-  },
-  loginView: {
-    marginTop: 0,
-    backgroundColor: "transparent",
-    width: 250,
-    height: 450
-  },
-  loginTitle: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  travelText: {
-    color: "#FAFAFA",
-    fontSize: 30
-  },
-  plusText: {
-    color: "#FAFAFA",
-    fontSize: 30
-  },
-  loginInput: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  signIn: {
-    backgroundColor: "#FFF",
-    marginTop: 30,
-    borderRadius: 25
-  },
-  footerView: {
-    marginTop: 20
-  },
-  welcomeText: {
-    textAlign: "center",
-    fontSize: 14,
-    color: "#FAFAFA"
-  },
-  inputText: {
-    marginLeft: 20,
-    marginRight: 20,
-    borderBottomColor: "#bdc6cf",
-    borderBottomWidth: 1,
-    width: 200,
-    fontSize: 17.78,
-    minHeight: 36,
-    color: "#FAFAFA"
-  },
-  inputStyle: {
-    color: "#FAFAFA",
-    width: 200
-  },
-  link: { fontSize: 14, color: "#ADD8E6", textAlign: "center" }
-});

@@ -100,7 +100,9 @@ export default class ConfirmSignUp extends AuthPiece{
                         autoCorrect={false} 
                         placeholderTextColor="#fafafa"
                         inputStyle={styles.inputStyle} 
-                        onChangeText={(text) => this.setState({ code: text })} />
+                        onChangeText={(text) => this.setState({ code: text })} 
+                        underlineColorAndroid="#bdc6cf"
+                        />
                     
                       
                         <Button title='CONFIRM' buttonStyle={styles.signIn} onPress={this.confirm} disabled={!this.state.code} />

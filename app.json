@@ -6,7 +6,11 @@
    "slug": "alpha-state",
    "sdkVersion": "27.0.0",
    "ios": {
-     "bundleIdentifier": "com.alphastate.alphastate"
+     "bundleIdentifier": "com.alphastate.alphastate",
+     "config": {
+      "googleMapsApiKey": "AIzaSyDuPOqvecL52DiuwvkU0kZHt_-B8yfS66U"
+      
+    }
    },
    "android": {
      "package": "com.alphastate.alphastate",

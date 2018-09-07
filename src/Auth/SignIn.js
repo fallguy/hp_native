@@ -51,16 +51,17 @@ const Footer = props => {
   if (error && error.includes("password")) {
     forgetPw = true;
   }
+  console.log('footer',theme)
   return (
-    <View style={styles.footerView}>
+    <View style={theme.footerView}>
       <Text style={{ textAlign: "center", color: "#FAFAFA" }}>New here?</Text>
-      <Text style={styles.link} onPress={() => onStateChange("signUp")}>
+      <Text style={theme.link} onPress={() => onStateChange("signUp")}>
         Create an Account
       </Text>
       <Text style={{ marginTop: 15, color: "red" }}>{error}</Text>
       {forgetPw ? (
         <Text
-          style={styles.link}
+          style={theme.link}
           onPress={() => {
             onStateChange("forgotPassword");
             error = false;
@@ -141,29 +142,30 @@ export default class SignIn extends AuthPiece {
   showComponent(theme) {
     return (
       <KeyboardAvoidingView behavior="padding" enabled>
-        <ImageBackground source={BG_IMAGE} style={styles.bgImage}>
-          <View style={styles.loginView}>
-            <View style={styles.loginTitle}>
+        <ImageBackground source={BG_IMAGE} style={theme.bgImage}>
+          <View style={theme.loginView}>
+            <View style={theme.loginTitle}>
               <View style={{ flexDirection: "row" }}>
-                <Text style={styles.travelText}>ALPHA</Text>
+                <Text style={theme.travelText}>ALPHA</Text>
               </View>
               <View style={{ marginTop: -10 }}>
-                <Text style={styles.travelText}>STATE</Text>
+                <Text style={theme.travelText}>STATE</Text>
               </View>
               <View>
-                <Text style={styles.welcomeText}>
+                <Text style={theme.welcomeText}>
                   Welcome! How do you feel right now? Please login.
                 </Text>
               </View>
             </View>
-            <View style={styles.loginInput}>
+            <View style={theme.loginInput}>
               <FormInput
                 placeholder="Username"
                 autoCapitalize="none"
                 placeholderTextColor="#fafafa"
                 autoCorrect={false}
-                inputStyle={styles.inputStyle}
+                inputStyle={theme.inputStyle}
                 onChangeText={text => this.setState({ username: text })}
+                underlineColorAndroid="#bdc6cf"
               />
               <FormInput
                 placeholder="Password"
@@ -171,13 +173,14 @@ export default class SignIn extends AuthPiece {
                 placeholderTextColor="#fafafa"
                 autoCorrect={false}
                 secureTextEntry={true}
-                inputStyle={styles.inputStyle}
+                inputStyle={theme.inputStyle}
                 onChangeText={text => this.setState({ password: text })}
+                underlineColorAndroid="#bdc6cf"
               />
 
               <Button
                 title="SIGN IN"
-                buttonStyle={styles.signIn}
+                buttonStyle={theme.signIn}
                 onPress={this.signIn}
                 disabled={!this.state.username || !this.state.password}
                 color="#222"
@@ -229,59 +232,3 @@ export default class SignIn extends AuthPiece {
     // );
   }
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  bgImage: {
-    flex: 1,
-    top: 0,
-    left: 0,
-    justifyContent: "center",
-    alignItems: "center",
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT
-  },
-  loginView: {
-    marginTop: 0,
-    backgroundColor: "transparent",
-    width: 250,
-    height: 450
-  },
-  loginTitle: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  travelText: {
-    color: "#FAFAFA",
-    fontSize: 30
-  },
-  plusText: {
-    color: "#FAFAFA",
-    fontSize: 30
-  },
-  loginInput: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  signIn: {
-    backgroundColor: "#FFF",
-    marginTop: 30,
-    borderRadius: 25
-  },
-  welcomeText: {
-    textAlign: "center",
-    fontSize: 14,
-    color: "#FAFAFA"
-  },
-  footerView: {
-    marginTop: 20
-  },
-  inputStyle: {
-    color: "#FAFAFA",
-    width: 200
-  },
-  link: { fontSize: 14, color: "#ADD8E6", textAlign: "center" }
-});
