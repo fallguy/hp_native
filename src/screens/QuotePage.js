@@ -50,7 +50,7 @@ export default class QuotePage extends Component {
           flex: 2, 
           alignItems: 'center',
           justifyContent: 'center', 
-          backgroundColor: '#F9F9F9'
+          backgroundColor: '#f1ece7'
         }}>
           <Text style={{ fontSize: 40 }}>Thank you!</Text>
         </View>
@@ -58,7 +58,7 @@ export default class QuotePage extends Component {
           flex: 3, 
           alignItems: 'center',
           justifyContent: 'center', 
-          backgroundColor: '#F9F9F9'
+          backgroundColor: '#f1ece7'
         }}>
           <Text style={{ margin: 30, fontSize: 24, fontStyle: 'italic' }}>
             "{this.state.randQuote}"
@@ -71,14 +71,15 @@ export default class QuotePage extends Component {
           alignItems: 'center',
           flexDirection: 'row',
           justifyContent: 'space-around',
-          backgroundColor: '#F9F9F9'
+          backgroundColor: '#f1ece7'
         }}>
         <TouchableHighlight 
           onPress={() => this.props.navigation.navigate('Home')}
           style={{ 
             width: '50%',
             padding: 6,
-            backgroundColor: '#495875',
+            backgroundColor: '#f39558',
+            borderRadius: 15,
           }}
         >
           <Text style={{

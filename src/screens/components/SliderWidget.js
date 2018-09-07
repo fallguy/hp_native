@@ -174,15 +174,17 @@ const styles = StyleSheet.create({
 
   button_submit: {
     width: '50%',
-    backgroundColor: '#495875',
-    padding: 6
+    backgroundColor: '#f39558',
+    padding: 6,
+    borderRadius: 15,
   },
 
   button_skip: {
     width: '33%',
-    backgroundColor: '#7C777A',
+    backgroundColor: '#eec8b0',
     padding: 6,
-    marginTop: 10
+    marginTop: 10,
+    borderRadius: 15,
   },
 
   button_text: {
