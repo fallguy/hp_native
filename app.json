@@ -1,5 +1,6 @@
 {
   "expo": {
+<<<<<<< HEAD
    "name": "Alpha State",
    "icon": "./src/icon.png",
    "version": "1.0.0",
@@ -20,5 +21,24 @@
        }
      }
    }
+=======
+    "name": "Alpha State",
+    "icon": "./src/icon.png",
+    "version": "1.0.0",
+    "slug": "alpha-state",
+    "sdkVersion": "27.0.0",
+    "orientation": "portrait",
+    "ios": {
+      "bundleIdentifier": "com.alphastate.alphastate"
+    },
+    "android": {
+      "package": "com.alphastate.alphastate",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCejJhnEkyeivHzzLp7EfhE-tueVsLq_nk"
+        }
+      }
+    }
+>>>>>>> f39b8006056fe54bfcabf8941d68672b1c69a822
   }
 }

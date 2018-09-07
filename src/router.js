@@ -38,19 +38,25 @@ export const Tabs = createBottomTabNavigator({
 }, {
   tabBarOptions: {
     style: {
-      backgroundColor: '#495875',
+      backgroundColor: '#8c4219',
     },
-    inactiveTintColor: '#A8EDE3',
-    activeTintColor: '#7C777A',
+    inactiveTintColor: '#f39558',
+    activeTintColor: '#eec8b0',
     showLabel: false,
   },
 });
 
-// #D1F1D9 tea green
-// #495875 dark blueish purple
-// #F9F9F9 off white
-// #A8EDE3 pale turquoise
-// #7C777A silvery brown
+// #4AB0DB robin egg blue
+// #A67D23 toasty brown
+// #925E29 coconut brown
+// #0972C9 sky blue
+// #4A5933 mossy green
+//
+// #8c4219 dark brown
+// #f39558 tan
+// #eec8b0 beige
+// #f1ece7 eggshell white
+// #a5bd97 teal
 
 export const createRootNavigator = () => {
   return createStackNavigator(
@@ -61,7 +67,7 @@ export const createRootNavigator = () => {
           title: 'Alpha State',
           gesturesEnabled: false,
           headerStyle: {
-            backgroundColor: '#D1F1D9',
+            backgroundColor: '#a5bd97',
           },
         }
       },
@@ -71,7 +77,7 @@ export const createRootNavigator = () => {
           title: 'Profile',
           gesturesEnabled: false,
           headerStyle: {
-            backgroundColor: '#D1F1D9',
+            backgroundColor: '#a5bd97',
           },
         }
       },
@@ -83,7 +89,7 @@ export const createRootNavigator = () => {
           headerLeft: null,
           gesturesEnabled: false,
           headerStyle: {
-            backgroundColor: '#D1F1D9',
+            backgroundColor: '#a5bd97',
           },
         },
       }
