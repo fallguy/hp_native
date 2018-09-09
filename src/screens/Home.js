@@ -8,14 +8,13 @@ import { LineChart, Grid } from 'react-native-svg-charts';
 import {SliderInput} from './SliderInput';
 import { NavigationActions } from 'react-navigation';
 
-
-
 export default class Home extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       user: "",
+      arrow_direction: '',
       notification_array: [],
       notificationObject: {},
       notification: {},
@@ -46,6 +45,8 @@ export default class Home extends Component {
   
   async componentDidMount() {
     let user = "";
+    let arrow_direction = 'arrow-up';
+    this.setState({  arrow_direction: arrow_direction })
     var todaysCurrentEpoch = new Date();
     Auth.currentSession().then((res) => {
       user = res.idToken.payload['cognito:username']
@@ -145,16 +146,21 @@ export default class Home extends Component {
   }
 
   async calculateTrendingAverage(){
+    console.log(this.state.arrow_direction)
     console.log("Rolling average and Yesterday average: ", this.state.rolling_average, " ", this.state.yesterday_rolling_average);
+    if (this.state.rolling_average < this.state.yesterday_rolling_average){
+      this.setState({ arrow_direction: 'arrow-down' })
+    }
+    console.log(this.state.arrow_direction)
+
     let temp_trending_average = this.state.rolling_average - this.state.yesterday_rolling_average;
-    console.log("before temp trend: ", temp_trending_average);
 
     let trending_average = (temp_trending_average/this.state.yesterday_rolling_average) * 100;
     let precision = 1;
     var multiplier = Math.pow(10, precision || 0);
     trending_average =  Math.round(trending_average * multiplier) / multiplier;
 
-    console.log("This is temp trending average: ", temp_trending_average);
+    console.log("This is temp trending average: ", trending_average);
     this.setState({ trending_average: trending_average })
   }
 
@@ -190,7 +196,7 @@ export default class Home extends Component {
                   justifyContent: 'center',
                   alignItems: 'center' 
                 }}>
-                  <Text>3%</Text>
+                  <Text>{ this.state.rolling_average }</Text>
                 </View>
               </View>
               <View style={ styles.column }>
@@ -201,8 +207,8 @@ export default class Home extends Component {
                   justifyContent: 'center',
                   alignItems: 'center' 
                 }}>
-                  <Icon name="arrow-up" type="entypo" size={18} color='#00ff00'></Icon>
-                  <Text>3%</Text>
+                  <Icon name={ this.state.arrow_direction } type="entypo" size={18} color='#00ff00'></Icon>
+                  <Text>{ this.state.trending_average }%</Text>
                 </View>
               </View>
             </View>
