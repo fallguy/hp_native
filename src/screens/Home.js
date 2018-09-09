@@ -14,7 +14,7 @@ export default class Home extends Component {
     super(props);
     this.state = {
       user: "",
-      arrow_direction: '',
+      arrow_direction: 'minus',
       notification_array: [],
       notificationObject: {},
       notification: {},
@@ -22,6 +22,7 @@ export default class Home extends Component {
       yesterday_rolling_average: 0,
       trending_average: 0,
       todaysDate: {},
+      graph: []
     };
   }
 
@@ -42,11 +43,18 @@ export default class Home extends Component {
     .then(data => console.log(data))
     .catch(err => console.log(err));
   }
+
+  calculateGraph(data) {
+    console.log('data',data)
+    let graph = data.map((res) => {return res.wellness_value})
+    
+    this.setState({ graph });
+
+  }
   
   async componentDidMount() {
     let user = "";
-    let arrow_direction = 'arrow-up';
-    this.setState({  arrow_direction: arrow_direction })
+  
     var todaysCurrentEpoch = new Date();
     Auth.currentSession().then((res) => {
       user = res.idToken.payload['cognito:username']
@@ -121,6 +129,7 @@ export default class Home extends Component {
       }
 
     this.calculateTrendingAverage(roundWithPrecision);
+    this.calculateGraph(wellnessOfThisUser_arrayfromserv);
   }
 
   async issueSurvey() {
@@ -150,6 +159,8 @@ export default class Home extends Component {
     console.log("Rolling average and Yesterday average: ", this.state.rolling_average, " ", this.state.yesterday_rolling_average);
     if (this.state.rolling_average < this.state.yesterday_rolling_average){
       this.setState({ arrow_direction: 'arrow-down' })
+    }else {
+      this.setState({ arrow_direction: 'arrow-up' })
     }
     console.log(this.state.arrow_direction)
 
@@ -177,8 +188,8 @@ export default class Home extends Component {
 
   render() {
     const fill = 'rgb(134, 65, 244)'
-    const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
-        
+    //const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
+    
     return (
       <ScrollView style={{ backgroundColor: 'white' }}>
         <View style={ styles.container }>
@@ -214,9 +225,11 @@ export default class Home extends Component {
             </View>
               <LineChart
                 style={{ height: 200 }}
-                data={ data }
+                data={ this.state.graph }
                 svg={{ stroke: 'rgb(134, 65, 244)' }}
                 contentInset={{ top: 20, bottom: 20 }}
+                yMin='0'
+                yMax='10'
               >
             <Grid/>
           </LineChart>
