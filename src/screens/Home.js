@@ -45,7 +45,7 @@ export default class Home extends Component {
   }
 
   calculateGraph(data) {
-    console.log('data',data)
+    
     let graph = data.map((res) => {return res.wellness_value})
     
     this.setState({ graph });
@@ -114,11 +114,11 @@ export default class Home extends Component {
     };
 
     let rolling_average = roundWithPrecision(calculateRollingAverage(latestThirtyDaysOfWellness), 1);
-    console.log("Rolling average: ", rolling_average);
+    //console.log("Rolling average: ", rolling_average);
     this.setState({ rolling_average: rolling_average });
 
     yesterday_rolling_average = roundWithPrecision(calculateRollingAverage(yesterday_rolling_average), 1);
-    console.log("Yesterday's Rolling Average: ", yesterday_rolling_average);
+    //console.log("Yesterday's Rolling Average: ", yesterday_rolling_average);
     this.setState({ yesterday_rolling_average: yesterday_rolling_average })
 
     let notificationObject = this.state.notification;
@@ -133,7 +133,7 @@ export default class Home extends Component {
   }
 
   async issueSurvey() {
-    console.log(this.state.notificationObject);
+    //console.log(this.state.notificationObject);
     //console.log(this.props.navigation);
     const navigateAction = NavigationActions.navigate({
       routeName: 'Tabs',
@@ -155,14 +155,14 @@ export default class Home extends Component {
   }
 
   async calculateTrendingAverage(){
-    console.log(this.state.arrow_direction)
-    console.log("Rolling average and Yesterday average: ", this.state.rolling_average, " ", this.state.yesterday_rolling_average);
+  
+    //console.log("Rolling average and Yesterday average: ", this.state.rolling_average, " ", this.state.yesterday_rolling_average);
     if (this.state.rolling_average < this.state.yesterday_rolling_average){
       this.setState({ arrow_direction: 'arrow-down' })
     }else {
       this.setState({ arrow_direction: 'arrow-up' })
     }
-    console.log(this.state.arrow_direction)
+
 
     let temp_trending_average = this.state.rolling_average - this.state.yesterday_rolling_average;
 
@@ -171,7 +171,7 @@ export default class Home extends Component {
     var multiplier = Math.pow(10, precision || 0);
     trending_average =  Math.round(trending_average * multiplier) / multiplier;
 
-    console.log("This is temp trending average: ", trending_average);
+
     this.setState({ trending_average: trending_average })
   }
 
