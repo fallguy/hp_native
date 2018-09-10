@@ -6,7 +6,6 @@ import aws_exports from '../aws-exports';
 import { NavigationEvents } from 'react-navigation';
 export default class Map extends Component {
 
-
     constructor(props) {
         super(props);
         this.state = {

@@ -3,11 +3,10 @@ import { ScrollView, StyleSheet, TouchableHighlight, Text, TextInput, View, Butt
 import { API, Auth } from 'aws-amplify';
 import aws_exports from '../aws-exports';
 import { Icon } from 'react-native-elements';
+import { AsyncStorage } from "react-native"
 import { LineChart, Grid } from 'react-native-svg-charts';
 import {SliderInput} from './SliderInput';
 import { NavigationActions } from 'react-navigation';
-
-
 
 export default class Home extends Component {
 
@@ -15,9 +14,15 @@ export default class Home extends Component {
     super(props);
     this.state = {
       user: "",
+      arrow_direction: 'minus',
       notification_array: [],
       notificationObject: {},
       notification: {},
+      rolling_average: 0,
+      yesterday_rolling_average: 0,
+      trending_average: 0,
+      todaysDate: {},
+      graph: []
     };
   }
 
@@ -31,7 +36,6 @@ export default class Home extends Component {
         await API.post('usersCRUD', '/users', { body: userObj });
       })
     });
-    
   }
 
   signOut() {
@@ -39,20 +43,36 @@ export default class Home extends Component {
     .then(data => console.log(data))
     .catch(err => console.log(err));
   }
- 
- 
-      
+
+  calculateGraph(data) {
+    
+    let graph = data.map((res) => {return res.wellness_value})
+    
+    this.setState({ graph });
+
+  }
+  
   async componentDidMount() {
     let user = "";
-   
+  
+    var todaysCurrentEpoch = new Date();
     Auth.currentSession().then((res) => {
       user = res.idToken.payload['cognito:username']
       this.setState({user: user})
     });
     this.postUser();
+    let yesterday_rolling_average = [];
 
     let notification_arrayfromserv = await API.get('notifyCRUD', `/notify/user`);
-   
+    let wellnessOfThisUser_arrayfromserv = await API.get('wellnessCRUD', `/wellness/user/from`);
+    const latestThirtyDaysOfWellness = wellnessOfThisUser_arrayfromserv.map(function(wellness){ 
+      return {
+        wellness_value: wellness.wellness_value,
+        answered_at: wellness.answered_at
+      }
+    });
+
+    //console.log(latestThirtyDaysOfWellness);
     this.setState({ notification_array: notification_arrayfromserv });
 
     if (this.state.notification_array && this.state.notification_array instanceof Array && this.state.notification_array.length > 0) {
@@ -62,16 +82,58 @@ export default class Home extends Component {
         });
     }
 
+    // returns an array of wellness objects from today with answered_at and epoch time
+    const getYesterdaysWellness = latestThirtyDaysOfWellness.filter(wellness => {
+      var d = new Date(0);
+      let dateFromUTCSeconds = d.setUTCSeconds(wellness.answered_at);
+      if(todaysCurrentEpoch.toDateString() != d.toDateString()){
+        yesterday_rolling_average.push({
+            wellness_value: wellness.wellness_value,
+            answered_at: wellness.answered_at
+        });
+        return wellness.wellness_value;
+      }
+    });
+    
+    function roundWithPrecision(value, precision) {
+      var multiplier = Math.pow(10, precision || 0);
+      return Math.round(value * multiplier) / multiplier;
+    }
+    
+    function calculateRollingAverage(arrayOfWellnessValues){
+      if (arrayOfWellnessValues[0] == undefined){
+        return;
+      }
+
+      let sum = 0;
+      for (var i = 0; i < arrayOfWellnessValues.length; i++) {
+        sum += parseInt( arrayOfWellnessValues[i].wellness_value, 10);
+      }
+      rolling_average = sum/latestThirtyDaysOfWellness.length;
+      return rolling_average; 
+    };
+
+    let rolling_average = roundWithPrecision(calculateRollingAverage(latestThirtyDaysOfWellness), 1);
+    //console.log("Rolling average: ", rolling_average);
+    this.setState({ rolling_average: rolling_average });
+
+    yesterday_rolling_average = roundWithPrecision(calculateRollingAverage(yesterday_rolling_average), 1);
+    //console.log("Yesterday's Rolling Average: ", yesterday_rolling_average);
+    this.setState({ yesterday_rolling_average: yesterday_rolling_average })
+
     let notificationObject = this.state.notification;
     this.setState({ notificationObject: notificationObject });
 
-    if (Object.keys(this.state.notification).length != 0) {
-      this.surveryAlert();
-    }
+      if (Object.keys(this.state.notification).length != 0) {
+        this.surveryAlert();
+      }
+
+    this.calculateTrendingAverage(roundWithPrecision);
+    this.calculateGraph(wellnessOfThisUser_arrayfromserv);
   }
 
   async issueSurvey() {
-    console.log(this.state.notificationObject);
+    //console.log(this.state.notificationObject);
     //console.log(this.props.navigation);
     const navigateAction = NavigationActions.navigate({
       routeName: 'Tabs',
@@ -92,6 +154,27 @@ export default class Home extends Component {
     // });
   }
 
+  async calculateTrendingAverage(){
+  
+    //console.log("Rolling average and Yesterday average: ", this.state.rolling_average, " ", this.state.yesterday_rolling_average);
+    if (this.state.rolling_average < this.state.yesterday_rolling_average){
+      this.setState({ arrow_direction: 'arrow-down' })
+    }else {
+      this.setState({ arrow_direction: 'arrow-up' })
+    }
+
+
+    let temp_trending_average = this.state.rolling_average - this.state.yesterday_rolling_average;
+
+    let trending_average = (temp_trending_average/this.state.yesterday_rolling_average) * 100;
+    let precision = 1;
+    var multiplier = Math.pow(10, precision || 0);
+    trending_average =  Math.round(trending_average * multiplier) / multiplier;
+
+
+    this.setState({ trending_average: trending_average })
+  }
+
   surveryAlert = () =>  {
     Alert.alert(
       'Time to check in!',
@@ -105,8 +188,8 @@ export default class Home extends Component {
 
   render() {
     const fill = 'rgb(134, 65, 244)'
-    const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
-        
+    //const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
+    
     return (
       <ScrollView style={{ backgroundColor: 'white' }}>
         <View style={ styles.container }>
@@ -124,7 +207,7 @@ export default class Home extends Component {
                   justifyContent: 'center',
                   alignItems: 'center' 
                 }}>
-                  <Text>3%</Text>
+                  <Text>{ this.state.rolling_average }</Text>
                 </View>
               </View>
               <View style={ styles.column }>
@@ -135,16 +218,18 @@ export default class Home extends Component {
                   justifyContent: 'center',
                   alignItems: 'center' 
                 }}>
-                  <Icon name="arrow-up" type="entypo" size={18} color='#00ff00'></Icon>
-                  <Text>3%</Text>
+                  <Icon name={ this.state.arrow_direction } type="entypo" size={18} color='#00ff00'></Icon>
+                  <Text>{ this.state.trending_average }%</Text>
                 </View>
               </View>
             </View>
               <LineChart
                 style={{ height: 200 }}
-                data={ data }
+                data={ this.state.graph }
                 svg={{ stroke: 'rgb(134, 65, 244)' }}
                 contentInset={{ top: 20, bottom: 20 }}
+                yMin='0'
+                yMax='10'
               >
             <Grid/>
           </LineChart>
