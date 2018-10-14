@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Slider, Button, Alert, ActivityIndicator } from "react-native";
-import { API, Auth } from 'aws-amplify';
+import { API, Auth, Analytics } from 'aws-amplify';
 import SliderWidget from './components/SliderWidget';
 import { createStackNavigator } from 'react-navigation';
 
@@ -37,6 +37,16 @@ export default class ClassSlider extends Component {
   }
 
   async handleAddSubmission(newSubmission) {
+    console.log(newSubmission)
+    Analytics.record({
+        name: 'surveyTaken', 
+        attributes: { 
+          survey: newSubmission.survey.question, 
+          widget: newSubmission.survey.widget,
+          category: newSubmission.survey.category  
+        }, 
+        metrics: { wellness_value: newSubmission.wellness_value }
+    });
     await API.post('wellnessCRUD', '/wellness', { body: newSubmission });
     this.props.navigation.navigate('QuotePage');
   }

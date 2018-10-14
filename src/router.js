@@ -9,7 +9,7 @@ import Map from './screens/Map';
 import SliderInput from './screens/SliderInput';
 import QuotePage from './screens/QuotePage';
 import SimpleStack from './stackNav';
-
+import { Analytics } from 'aws-amplify';
 let screen = Dimensions.get('window');
 export const Tabs = createBottomTabNavigator({
   'Home': {
@@ -23,6 +23,11 @@ export const Tabs = createBottomTabNavigator({
     screen: SliderInput, // TODO: change this back to Survey after updating that screen
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => <Icon reverse name="create" size={28} color={tintColor} />,
+      tabBarOnPress: function(actions) {
+        console.log(actions);
+        Analytics.record({ name: 'takeSurvey' });
+        actions.defaultHandler();
+      }
     },
     tabBarOptions: {
       showLabel: false,
